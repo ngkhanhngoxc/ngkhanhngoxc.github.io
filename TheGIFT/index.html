@@ -9,28 +9,40 @@
             background-image: url('IMG_5872.png'); 
             background-size: cover; background-position: center;
             background-repeat: no-repeat; color: #FFFFE0; font-family: sans-serif;
-            transition: background-image 0.1s; /* Chuyển cảnh cực nhanh */
+            transition: background-image 0s;
         }
+
+        /* Hiệu ứng nhiễu màu sắc (Glitch) */
+        .glitch-active::before, .glitch-active::after {
+            content: "THE GIFT"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center; font-size: 130px; font-weight: 700;
+        }
+        .glitch-active::before { color: red; transform: translate(-5px, 0); z-index: 1; }
+        .glitch-active::after { color: cyan; transform: translate(5px, 0); z-index: -1; }
+
         .container { text-align: center; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 20px; }
-        .glitch-flash { animation: flash 0.2s; }
-        @keyframes flash { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+        button { padding: 15px 30px; cursor: pointer; background: none; border: 2px solid #FFFFE0; color: #FFFFE0; font-family: Impact, sans-serif; font-size: 30px; }
     </style>
 </head>
 <body>
-    <div class="container" id="mainBox">
-        <h1>THE GIFT</h1>
-        <button onclick="glitchEffect()" style="padding:10px 20px; cursor:pointer;">enter hub</button>
+    <div class="container" id="box">
+        <h1 id="title">THE GIFT</h1>
+        <button onclick="triggerGlitch()">enter hub</button>
     </div>
 
     <script>
-        function glitchEffect() {
+        function triggerGlitch() {
             const body = document.body;
-            // 1. Chớp đen 1 cái
-            body.style.backgroundColor = "black";
-            // 2. Đổi sang ảnh cảnh 2 (IMG_5885.png)
-            body.style.backgroundImage = "url('IMG_5885.png')";
-            // 3. Ẩn menu cũ đi
-            document.getElementById('mainBox').style.display = 'none';
+            const title = document.getElementById('title');
+            
+            // 1. Thêm class nhiễu màu
+            title.classList.add('glitch-active');
+            
+            // 2. Chuyển cảnh sau 0.5s
+            setTimeout(() => {
+                body.style.backgroundImage = "url('IMG_5885.png')";
+                document.getElementById('box').style.display = 'none';
+            }, 500);
         }
     </script>
 </body>
