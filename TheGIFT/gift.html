@@ -8,11 +8,11 @@
             display: flex; justify-content: center; align-items: center; 
             background-image: url('IMG_5885.png'); 
             background-size: cover; background-position: center;
-            font-family: 'Courier New', Courier, monospace; /* Font chuẩn */
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .box { 
-            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 15px; /* Bo nhẹ góc */
+            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255, 255, 255, 0.1);
             text-align: center; color: #FDFD96;
         }
@@ -22,7 +22,7 @@
         input { 
             background: none; border: 1px solid #FDFD96; padding: 10px; 
             width: 250px; color: #FDFD96; text-align: center; margin-bottom: 20px;
-            border-radius: 8px; /* Bo nhẹ khung nhập */
+            border-radius: 8px;
             font-family: 'Courier New', Courier, monospace;
         }
 
@@ -30,7 +30,7 @@
         
         button { 
             background: none; border: 1px solid #FDFD96; color: #FDFD96; 
-            padding: 8px 20px; cursor: pointer; border-radius: 8px; /* Bo nhẹ nút */
+            padding: 8px 20px; cursor: pointer; border-radius: 8px;
             font-family: 'Courier New', Courier, monospace; font-weight: bold;
         }
         
@@ -63,7 +63,8 @@
                 input.style.borderColor = "green";
                 msg.style.color = "green";
                 msg.innerHTML = "access successfully";
-                setTimeout(() => { window.location.href = "destination.html"; }, 1000);
+                // Đã sửa thành final.html để dẫn tới trang lời chúc
+                setTimeout(() => { window.location.href = "final.html"; }, 1000);
             } else {
                 input.classList.add('shake');
                 input.style.borderColor = "red";
