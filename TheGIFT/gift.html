@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black; color:white; display:flex; justify-content:center; align-items:center; height:100vh; font-family:monospace;">
-    <div style="text-align:center;">
-        <p>Password required to open this gift</p>
-        <input type="password" id="pass" style="background:black; color:white; border:1px solid white; padding:5px;">
-        <br><br>
-        <button onclick="check()" style="color:white; background:transparent; border:1px solid white; padding:5px 15px;">Confirm</button>
-        <button onclick="history.back()" style="color:white; background:transparent; border:1px solid white; padding:5px 15px;">Back</button>
-        <p id="msg"></p>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; min-height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; 
+            background-image: url('IMG_5872.png'); 
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat; color: #FFFFE0; font-family: sans-serif; 
+        }
+        
+        /* Box chứa khung nhập để trông sang trọng */
+        .box { text-align: center; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 20px; }
+        
+        h1 { font-family: 'Lexend', sans-serif; font-size: 60px; text-transform: uppercase; margin-bottom: 20px; }
+        
+        input { 
+            padding: 15px; font-size: 20px; border-radius: 10px; border: 2px solid #FFFFE0; 
+            background: rgba(255,255,255,0.1); color: #FFFFE0; text-align: center;
+            width: 250px; display: block; margin: 0 auto 20px auto;
+        }
+        
+        button { 
+            padding: 10px 30px; font-size: 20px; cursor: pointer; 
+            background: none; border: 2px solid #FFFFE0; border-radius: 10px; 
+            color: #FFFFE0; font-family: Impact, sans-serif; text-transform: lowercase;
+        }
+        
+        button:hover { background: #FFFFE0; color: #8B0000; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>hub access</h1>
+        <input type="password" id="pass" placeholder="enter key">
+        <button onclick="checkPass()">submit</button>
     </div>
 
     <script>
-        function check() {
+        function checkPass() {
             let p = document.getElementById("pass").value;
-            if(p === "lucminh1604") {
-                document.getElementById("msg").innerHTML = "Access successfully";
-                document.getElementById("msg").style.color = "#0f0";
+            // Thay "mậtkhẩucủabạn" bằng mật khẩu thật của bạn
+            if (p === "mậtkhẩucủabạn") { 
+                window.location.href = "destination.html"; // Trang đích sau khi đúng mật khẩu
             } else {
-                document.getElementById("msg").innerHTML = "Error";
-                document.getElementById("msg").style.color = "red";
+                alert("Access Denied.");
             }
         }
     </script>
