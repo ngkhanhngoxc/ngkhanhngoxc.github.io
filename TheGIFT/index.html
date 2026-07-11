@@ -5,12 +5,11 @@
     <style>
         body { 
             margin: 0; 
-            height: 100vh; 
+            min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            /* Hình nền tự động lấp đầy màn hình */
             background-image: url('IMG_5872.png');
             background-size: cover;
             background-position: center;
@@ -21,10 +20,9 @@
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Tiêu đề chính */
         h1 { 
             font-family: 'Lexend', sans-serif; 
-            font-size: 130px; 
+            font-size: 100px; /* Nhỏ hơn một chút cho cân đối */
             font-weight: 700; 
             margin: 0; 
             text-transform: uppercase;
@@ -32,17 +30,14 @@
             animation: fadeIn 2s ease-in;
         }
 
-        /* Dòng chữ gõ máy */
         .text { 
-            font-size: 40px; 
+            font-size: 30px; 
             font-weight: bold; 
             font-family: monospace; 
-            margin: 30px 0; 
+            margin: 20px 0; 
             min-height: 1.5em; 
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* Nút Enter Hub bo tròn */
         .btn { 
             font-family: Impact, sans-serif; 
             font-size: 30px; 
@@ -50,19 +45,13 @@
             padding: 12px 30px; 
             border: 2px solid #FFFFE0; 
             border-radius: 15px; 
-            background: rgba(255, 255, 224, 0.1); /* Nền mờ nhẹ cho sang */
+            background: none; 
             color: #FFFFE0; 
             cursor: pointer;
             text-transform: lowercase; 
             opacity: 0; 
             animation: fadeIn 2s ease-in forwards;
             animation-delay: 2s; 
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background: #FFFFE0;
-            color: #8B0000;
         }
     </style>
 </head>
@@ -83,7 +72,6 @@
             }
             type();
         }
-        // Gọi hiệu ứng gõ
         setTimeout(() => typeText("WELCOME, THE EXCEPTION.", "welcome", 100), 1500);
     </script>
 </body>
