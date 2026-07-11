@@ -7,26 +7,24 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        html, body { 
-            width: 100%;
-            height: 100%;
-            height: 100dvh; /* Đơn vị này giúp fix vệt trắng trên iOS/iPadOS */
-            overflow: hidden;
+        body { 
+            width: 100vw;
+            height: 100vh;
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            background-color: #000; /* Màu nền dự phòng */
-        }
-
-        body { 
+            
+            /* Cấu hình ảnh nền tràn viền tuyệt đối */
             background-image: url('IMG_5872.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            
             color: #FFFFE0; 
             font-family: sans-serif;
+            overflow: hidden; /* Ngăn cuộn trang */
         }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
