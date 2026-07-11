@@ -14,17 +14,17 @@
         }
 
         .container { 
-            max-width: 80%; /* Để rộng hơn cho dễ đọc */
-            padding: 30px; 
-            line-height: 1.8; /* Tăng khoảng cách dòng cho thoáng */
+            max-width: 90%; 
+            padding: 40px; 
+            line-height: 1.5; 
             background: rgba(0,0,0,0.3); 
-            border-radius: 15px;
+            border-radius: 20px;
         }
 
-        /* Định dạng các dòng với font-size 19px */
-        .line1 { font-family: 'Lexend', sans-serif; font-size: 19px; font-weight: bold; }
-        .line2 { font-family: 'Courier New', Courier, monospace; font-size: 19px; font-weight: bold; margin: 15px 0; opacity: 0; transition: opacity 2s; }
-        .line3 { font-family: 'Lexend', sans-serif; font-size: 19px; font-weight: bold; opacity: 0; transition: opacity 2s; }
+        /* Định dạng các dòng với font-size 30px */
+        .line1 { font-family: 'Lexend', sans-serif; font-size: 30px; font-weight: bold; }
+        .line2 { font-family: 'Courier New', Courier, monospace; font-size: 30px; font-weight: bold; margin: 25px 0; opacity: 0; transition: opacity 2s; }
+        .line3 { font-family: 'Lexend', sans-serif; font-size: 30px; font-weight: bold; opacity: 0; transition: opacity 2s; }
 
         .show { opacity: 1 !important; }
     </style>
@@ -50,8 +50,8 @@
                     document.getElementById('l2').classList.add('show');
                     setTimeout(() => {
                         document.getElementById('l3').classList.add('show');
-                    }, 1500);
-                }, 500);
+                    }, 2000);
+                }, 800);
             }
         }
         type();
