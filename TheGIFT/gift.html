@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body style="background:black; color:white; display:flex; justify-content:center; align-items:center; height:100vh; font-family:monospace;">
+    <div style="text-align:center;">
+        <p>Password required to open this gift</p>
+        <input type="password" id="pass" style="background:black; color:white; border:1px solid white; padding:5px;">
+        <br><br>
+        <button onclick="check()" style="color:white; background:transparent; border:1px solid white; padding:5px 15px;">Confirm</button>
+        <button onclick="history.back()" style="color:white; background:transparent; border:1px solid white; padding:5px 15px;">Back</button>
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        function check() {
+            let p = document.getElementById("pass").value;
+            if(p === "lucminh1604") {
+                document.getElementById("msg").innerHTML = "Access successfully";
+                document.getElementById("msg").style.color = "#0f0";
+            } else {
+                document.getElementById("msg").innerHTML = "Error";
+                document.getElementById("msg").style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
