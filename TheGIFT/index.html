@@ -1,34 +1,27 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body { 
-            width: 100vw;
-            height: 100vh;
+            margin: 0; 
+            height: 100vh; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            
-            /* Cấu hình ảnh nền tràn viền tuyệt đối */
+            /* Hình nền tự động lấp đầy màn hình */
             background-image: url('IMG_5872.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
-            
             color: #FFFFE0; 
-            font-family: sans-serif;
-            overflow: hidden; /* Ngăn cuộn trang */
+            font-family: sans-serif; 
         }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Tiêu đề chính */
         h1 { 
             font-family: 'Lexend', sans-serif; 
             font-size: 130px; 
@@ -39,6 +32,7 @@
             animation: fadeIn 2s ease-in;
         }
 
+        /* Dòng chữ gõ máy */
         .text { 
             font-size: 40px; 
             font-weight: bold; 
@@ -48,13 +42,15 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
+        /* Nút Enter Hub bo tròn */
         .btn { 
             font-family: Impact, sans-serif; 
             font-size: 30px; 
+            font-weight: normal; 
             padding: 12px 30px; 
             border: 2px solid #FFFFE0; 
             border-radius: 15px; 
-            background: rgba(255, 255, 224, 0.1);
+            background: rgba(255, 255, 224, 0.1); /* Nền mờ nhẹ cho sang */
             color: #FFFFE0; 
             cursor: pointer;
             text-transform: lowercase; 
@@ -87,6 +83,7 @@
             }
             type();
         }
+        // Gọi hiệu ứng gõ
         setTimeout(() => typeText("WELCOME, THE EXCEPTION.", "welcome", 100), 1500);
     </script>
 </body>
