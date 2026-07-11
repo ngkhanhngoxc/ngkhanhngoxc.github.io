@@ -1,32 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body { margin: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: black; color: white; font-family: monospace; }
-        h1 { font-size: 3em; color: #ff0055; margin-bottom: 10px; }
-        #welcome { font-size: 1.2em; margin-bottom: 20px; }
-        button { background: transparent; border: 1px solid white; color: white; padding: 10px 20px; cursor: pointer; font-size: 1em; }
-    </style>
-</head>
-<body>
-    <h1 id="title"></h1>
-    <p id="welcome"></p>
-    <button onclick="window.location.href='gift.html'">NEXT</button>
+<style>
+    /* Nhúng font Didot từ Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap'); 
+    /* Didot là font bản quyền, mình dùng Playfair Display - font thay thế cực kỳ sang chảnh và giống Didot nhất nhé */
 
-    <script>
-        function typeText(text, id, speed) {
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    document.getElementById(id).innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-        typeText("THE GIFT", "title", 150);
-        setTimeout(() => typeText("welcome, the exception.", "welcome", 100), 1500);
-    </script>
-</body>
-</html>
+    body { 
+        margin: 0; 
+        height: 100vh; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        background-color: #8B0000; /* Màu đỏ đậm sang trọng */
+        color: white; 
+        font-family: 'Playfair Display', serif; 
+    }
+    
+    h1 { 
+        font-size: 6em; /* Làm chữ to lên */
+        color: #FFFACD; /* Màu vàng pastel (LemonChiffon) */
+        margin-bottom: 10px; 
+        font-weight: 700; /* Bold */
+    }
+    
+    #welcome { font-size: 1.5em; margin-bottom: 20px; }
+    
+    button { 
+        background: transparent; 
+        border: 2px solid #FFFACD; 
+        color: #FFFACD; 
+        padding: 12px 25px; 
+        cursor: pointer; 
+        font-size: 1.2em;
+        font-family: 'Playfair Display', serif;
+    }
+</style>
