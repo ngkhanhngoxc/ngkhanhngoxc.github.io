@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center; 
+            background-image: url('IMG_5871.png');
+            background-size: cover; background-position: center;
+            color: white; /* Chữ màu trắng */
+            text-shadow: 0 0 10px #81D8D0, 0 0 20px #81D8D0; /* Tỏa sáng Tiffany Blue */
+        }
+
+        .container { 
+            max-width: 600px; padding: 30px; line-height: 1.6;
+            background: rgba(0,0,0,0.3); border-radius: 15px;
+        }
+
+        /* Định dạng các dòng */
+        .line1 { font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: bold; }
+        .line2 { font-family: 'Courier New', Courier, monospace; font-size: 12px; font-weight: bold; margin: 10px 0; opacity: 0; transition: opacity 2s; }
+        .line3 { font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 2s; }
+
+        .show { opacity: 1 !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="l1" class="line1"></div>
+        <div id="l2" class="line2">Hôm nay là ngày em đi thi nhỉ? Chị biết là em không đặt nặng vấn đề đoạt giải, nhưng mà nè, với thời gian và công sức em bỏ ra thì kì vọng vào bản thân em một chút cũng là điều hoàn toàn xứng đáng mà:3?</div>
+        <div id="l3" class="line3">Chúc em thi thật tốt, bình tĩnh, tự tin vào chính mình nhé? Dù kết quả có ra sao thì em bé của chị cũng đã cố gắng hết sức rồi mà>< Cố lên nhéee>< chị yêu em nhiều lắm><.</div>
+    </div>
+
+    <script>
+        // Gõ chữ đoạn 1
+        const text1 = "hello>< sáng tốt lành nhé:3";
+        let i = 0;
+        function type() {
+            if (i < text1.length) {
+                document.getElementById('l1').innerHTML += text1.charAt(i);
+                i++;
+                setTimeout(type, 100);
+            } else {
+                // Sau khi gõ xong thì hiện dòng 2 và 3
+                setTimeout(() => {
+                    document.getElementById('l2').classList.add('show');
+                    setTimeout(() => {
+                        document.getElementById('l3').classList.add('show');
+                    }, 1500);
+                }, 500);
+            }
+        }
+        type();
+    </script>
+</body>
+</html>
