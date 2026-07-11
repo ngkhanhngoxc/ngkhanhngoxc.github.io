@@ -1,80 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Nhúng font Lexend -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
     <style>
-    body { 
-        margin: 0; 
-        height: 100vh; 
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
-        background-color: #8B0000; 
-        color: #FFFFE0; 
-        font-family: 'Courier New', Courier, monospace; 
-    }
-    
-    /* Tăng kích thước tiêu đề CHÍNH lên */
-    h1 { 
-        font-size: 100px; /* Vừa rồi là 80px, giờ là 100px, to hơn hẳn */
-        margin: 0; 
-        font-weight: 900; 
-        text-transform: uppercase;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Thêm bóng mờ nhẹ cho sang */
-    }
-
-    /* Tăng kích thước chữ WELCOME lên */
-    .text { 
-        font-size: 28px; /* Vừa rồi là 20px, giờ là 28px, đọc rõ hơn */
-        margin: 25px 0; 
-        min-height: 1.5em; 
-    }
-
-    /* Tăng kích thước chữ nút ENTER HUB lên */
-    .btn { 
-        padding: 20px 40px; /* Nút to hơn để cân đối với chữ */
-        border: 3px solid #FFFFE0; /* Viền dày hơn chút */
-        background: none; 
-        color: #FFFFE0; 
-        font-size: 28px; /* Cỡ chữ nút bằng với chữ welcome */
-        cursor: pointer; 
-        font-family: inherit !important; 
-        transition: all 0.3s ease; /* Hiệu ứng mượt hơn */
-        letter-spacing: 1px; /* Giãn chữ cho thoáng */
-    }
-
-    /* Hiệu ứng khi di chuột/ấn vào nút */
-    .btn:hover {
-        background: #FFFFE0;
-        color: #8B0000;
-        box-shadow: 0 0 15px rgba(255,255,224,0.5); /* Phát sáng nhẹ khi hover */
-    }
-</style>
-
-        
-        h1 { 
-            font-size: 80px; 
+        body { 
             margin: 0; 
-            font-weight: 900; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: #8B0000; 
+            color: #FFFFE0; 
+            font-family: sans-serif; /* Mặc định */
+        }
+        
+        /* Chữ THE GIFT: Lexend, Cực to, In đậm */
+        h1 { 
+            font-family: 'Lexend', sans-serif;
+            font-size: 130px; 
+            font-weight: 700; 
+            margin: 0; 
             text-transform: uppercase;
         }
 
+        /* Chữ welcome: Cực to, In đậm, Monospace */
         .text { 
-            font-size: 20px; 
-            margin: 20px 0; 
-            min-height: 1.2em; 
+            font-size: 40px; 
+            font-weight: bold; 
+            font-family: monospace;
+            margin: 30px 0; 
+            min-height: 1.5em; 
         }
 
+        /* Nút Enter Hub: Font Impact, Cực to, In đậm */
         .btn { 
-            padding: 15px 30px; 
-            border: 2px solid #FFFFE0; 
+            font-family: Impact, sans-serif;
+            font-size: 50px; 
+            font-weight: bold;
+            padding: 25px 60px; 
+            border: 4px solid #FFFFE0; 
             background: none; 
             color: #FFFFE0; 
-            font-size: 20px; 
             cursor: pointer; 
-            /* Ép buộc dùng font của body */
-            font-family: inherit !important; 
             transition: 0.3s;
+            letter-spacing: 3px;
         }
 
         .btn:hover {
@@ -86,7 +57,7 @@
 <body>
     <h1 id="title"></h1>
     <div id="welcome" class="text"></div>
-    <button class="btn" onclick="window.location.href='gift.html'">Enter Hub</button>
+    <button class="btn" onclick="window.location.href='gift.html'">ENTER HUB</button>
 
     <script>
         function typeText(text, id, speed) {
@@ -102,7 +73,7 @@
         }
         // Gọi hiệu ứng gõ
         typeText("THE GIFT", "title", 150);
-        setTimeout(() => typeText("welcome, the exception.", "welcome", 100), 1500);
+        setTimeout(() => typeText("WELCOME, THE EXCEPTION.", "welcome", 100), 1800);
     </script>
 </body>
 </html>
