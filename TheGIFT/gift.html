@@ -6,28 +6,40 @@
         body { 
             width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center; 
-            background-image: url('IMG_5885.png'); /* Nền cảnh 2 */
+            background-image: url('IMG_5885.png'); 
             background-size: cover; background-position: center;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace; /* Font chuẩn */
         }
 
         .box { 
-            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255, 255, 255, 0.2);
-            text-align: center; color: #FDFD96; /* Vàng pastel */
+            background: rgba(0,0,0,0.5); padding: 40px; border-radius: 15px; /* Bo nhẹ góc */
+            box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255, 255, 255, 0.1);
+            text-align: center; color: #FDFD96;
         }
 
-        .label { font-weight: bold; margin-bottom: 15px; display: block; }
+        .label { font-weight: bold; margin-bottom: 15px; display: block; font-size: 18px; }
+        
         input { 
             background: none; border: 1px solid #FDFD96; padding: 10px; 
             width: 250px; color: #FDFD96; text-align: center; margin-bottom: 20px;
+            border-radius: 8px; /* Bo nhẹ khung nhập */
+            font-family: 'Courier New', Courier, monospace;
         }
+
         .btn-group { display: flex; gap: 15px; justify-content: center; }
-        button { background: none; border: 1px solid #FDFD96; color: #FDFD96; padding: 5px 15px; cursor: pointer; }
+        
+        button { 
+            background: none; border: 1px solid #FDFD96; color: #FDFD96; 
+            padding: 8px 20px; cursor: pointer; border-radius: 8px; /* Bo nhẹ nút */
+            font-family: 'Courier New', Courier, monospace; font-weight: bold;
+        }
+        
+        button:hover { background: #FDFD96; color: black; }
         
         .shake { animation: shake 0.2s; border-color: red !important; }
         @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } 100% { transform: translateX(0); } }
-        #msg { margin-top: 15px; font-weight: bold; }
+        
+        #msg { margin-top: 15px; font-weight: bold; height: 20px; }
     </style>
 </head>
 <body>
