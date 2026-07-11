@@ -9,19 +9,22 @@
             display: flex; justify-content: center; align-items: center; 
             background-image: url('IMG_5871.png');
             background-size: cover; background-position: center;
-            color: white; /* Chữ màu trắng */
-            text-shadow: 0 0 10px #81D8D0, 0 0 20px #81D8D0; /* Tỏa sáng Tiffany Blue */
+            color: white; 
+            text-shadow: 0 0 10px #81D8D0, 0 0 20px #81D8D0;
         }
 
         .container { 
-            max-width: 600px; padding: 30px; line-height: 1.6;
-            background: rgba(0,0,0,0.3); border-radius: 15px;
+            max-width: 80%; /* Để rộng hơn cho dễ đọc */
+            padding: 30px; 
+            line-height: 1.8; /* Tăng khoảng cách dòng cho thoáng */
+            background: rgba(0,0,0,0.3); 
+            border-radius: 15px;
         }
 
-        /* Định dạng các dòng */
-        .line1 { font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: bold; }
-        .line2 { font-family: 'Courier New', Courier, monospace; font-size: 12px; font-weight: bold; margin: 10px 0; opacity: 0; transition: opacity 2s; }
-        .line3 { font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 2s; }
+        /* Định dạng các dòng với font-size 19px */
+        .line1 { font-family: 'Lexend', sans-serif; font-size: 19px; font-weight: bold; }
+        .line2 { font-family: 'Courier New', Courier, monospace; font-size: 19px; font-weight: bold; margin: 15px 0; opacity: 0; transition: opacity 2s; }
+        .line3 { font-family: 'Lexend', sans-serif; font-size: 19px; font-weight: bold; opacity: 0; transition: opacity 2s; }
 
         .show { opacity: 1 !important; }
     </style>
@@ -35,7 +38,6 @@
     </div>
 
     <script>
-        // Gõ chữ đoạn 1
         const text1 = "hello>< sáng tốt lành nhé:3";
         let i = 0;
         function type() {
@@ -44,7 +46,6 @@
                 i++;
                 setTimeout(type, 100);
             } else {
-                // Sau khi gõ xong thì hiện dòng 2 và 3
                 setTimeout(() => {
                     document.getElementById('l2').classList.add('show');
                     setTimeout(() => {
