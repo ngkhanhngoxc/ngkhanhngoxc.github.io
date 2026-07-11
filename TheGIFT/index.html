@@ -4,46 +4,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
     <style>
         body { 
-            margin: 0; height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; 
-            background-image: url('IMG_5872.png'); 
-            background-size: cover; background-position: center;
-            background-repeat: no-repeat; color: #FFFFE0; font-family: sans-serif;
-            transition: background-image 0s;
+            margin: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-image: url('IMG_5872.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #FFFFE0; 
+            font-family: sans-serif; 
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1 { 
+            font-family: 'Lexend', sans-serif; 
+            font-size: 100px; /* Nhỏ hơn một chút cho cân đối */
+            font-weight: 700; 
+            margin: 0; 
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #FFFFE0, 0 0 20px #FFFFE0;
+            animation: fadeIn 2s ease-in;
         }
 
-        /* Hiệu ứng nhiễu màu sắc (Glitch) */
-        .glitch-active::before, .glitch-active::after {
-            content: "THE GIFT"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; justify-content: center; align-items: center; font-size: 130px; font-weight: 700;
+        .text { 
+            font-size: 30px; 
+            font-weight: bold; 
+            font-family: monospace; 
+            margin: 20px 0; 
+            min-height: 1.5em; 
         }
-        .glitch-active::before { color: red; transform: translate(-5px, 0); z-index: 1; }
-        .glitch-active::after { color: cyan; transform: translate(5px, 0); z-index: -1; }
 
-        .container { text-align: center; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 20px; }
-        button { padding: 15px 30px; cursor: pointer; background: none; border: 2px solid #FFFFE0; color: #FFFFE0; font-family: Impact, sans-serif; font-size: 30px; }
+        .btn { 
+            font-family: Impact, sans-serif; 
+            font-size: 30px; 
+            font-weight: normal; 
+            padding: 12px 30px; 
+            border: 2px solid #FFFFE0; 
+            border-radius: 15px; 
+            background: none; 
+            color: #FFFFE0; 
+            cursor: pointer;
+            text-transform: lowercase; 
+            opacity: 0; 
+            animation: fadeIn 2s ease-in forwards;
+            animation-delay: 2s; 
+        }
     </style>
 </head>
 <body>
-    <div class="container" id="box">
-        <h1 id="title">THE GIFT</h1>
-        <button onclick="triggerGlitch()">enter hub</button>
-    </div>
+    <h1>THE GIFT</h1>
+    <div id="welcome" class="text"></div>
+    <button class="btn" onclick="window.location.href='gift.html'">enter hub</button>
 
     <script>
-        function triggerGlitch() {
-            const body = document.body;
-            const title = document.getElementById('title');
-            
-            // 1. Thêm class nhiễu màu
-            title.classList.add('glitch-active');
-            
-            // 2. Chuyển cảnh sau 0.5s
-            setTimeout(() => {
-                body.style.backgroundImage = "url('IMG_5885.png')";
-                document.getElementById('box').style.display = 'none';
-            }, 500);
+        function typeText(text, id, speed) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    document.getElementById(id).innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
         }
+        setTimeout(() => typeText("WELCOME, THE EXCEPTION.", "welcome", 100), 1500);
     </script>
 </body>
 </html>
