@@ -2,18 +2,55 @@
 <html>
 <head>
     <style>
-        /* Thiết lập font monospace cho toàn bộ trang */
-        body { 
-            margin: 0; 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: #8B0000; 
-            color: #FFFFE0; 
-            font-family: 'Courier New', Courier, monospace; /* Font kiểu code đồng nhất */
-        }
+    body { 
+        margin: 0; 
+        height: 100vh; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        background-color: #8B0000; 
+        color: #FFFFE0; 
+        font-family: 'Courier New', Courier, monospace; 
+    }
+    
+    /* Tăng kích thước tiêu đề CHÍNH lên */
+    h1 { 
+        font-size: 100px; /* Vừa rồi là 80px, giờ là 100px, to hơn hẳn */
+        margin: 0; 
+        font-weight: 900; 
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Thêm bóng mờ nhẹ cho sang */
+    }
+
+    /* Tăng kích thước chữ WELCOME lên */
+    .text { 
+        font-size: 28px; /* Vừa rồi là 20px, giờ là 28px, đọc rõ hơn */
+        margin: 25px 0; 
+        min-height: 1.5em; 
+    }
+
+    /* Tăng kích thước chữ nút ENTER HUB lên */
+    .btn { 
+        padding: 20px 40px; /* Nút to hơn để cân đối với chữ */
+        border: 3px solid #FFFFE0; /* Viền dày hơn chút */
+        background: none; 
+        color: #FFFFE0; 
+        font-size: 28px; /* Cỡ chữ nút bằng với chữ welcome */
+        cursor: pointer; 
+        font-family: inherit !important; 
+        transition: all 0.3s ease; /* Hiệu ứng mượt hơn */
+        letter-spacing: 1px; /* Giãn chữ cho thoáng */
+    }
+
+    /* Hiệu ứng khi di chuột/ấn vào nút */
+    .btn:hover {
+        background: #FFFFE0;
+        color: #8B0000;
+        box-shadow: 0 0 15px rgba(255,255,224,0.5); /* Phát sáng nhẹ khi hover */
+    }
+</style>
+
         
         h1 { 
             font-size: 80px; 
