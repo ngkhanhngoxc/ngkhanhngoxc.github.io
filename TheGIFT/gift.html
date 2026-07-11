@@ -3,52 +3,60 @@
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            width: 100vw; height: 100vh;
-            display: flex; flex-direction: column; 
+            margin: 0; height: 100vh; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; 
-            background-image: url('IMG_5872.png'); 
+            background-image: url('IMG_5872.png'); /* Cảnh 1 */
             background-size: cover; background-position: center;
-            background-repeat: no-repeat; color: #FFFFE0; font-family: sans-serif; 
-            overflow: hidden;
+            background-repeat: no-repeat; color: #FFFFE0; font-family: sans-serif;
+            transition: background-image 0.5s ease; /* Hiệu ứng chuyển mượt */
         }
-        
-        .box { text-align: center; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 20px; }
-        
-        h1 { font-family: 'Lexend', sans-serif; font-size: 50px; text-transform: uppercase; margin-bottom: 20px; }
-        
-        input { 
-            padding: 15px; font-size: 20px; border-radius: 10px; border: 2px solid #FFFFE0; 
-            background: rgba(255,255,255,0.1); color: #FFFFE0; text-align: center;
-            width: 250px; display: block; margin: 0 auto 20px auto;
+
+        /* Lớp phủ nhiễu */
+        .glitch-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s;
         }
-        
-        button { 
-            padding: 10px 30px; font-size: 20px; cursor: pointer; 
-            background: none; border: 2px solid #FFFFE0; border-radius: 10px; 
-            color: #FFFFE0; font-family: Impact, sans-serif; text-transform: lowercase;
+
+        @keyframes glitch { 
+            0% { transform: translateX(0); } 
+            25% { transform: translateX(-10px); } 
+            50% { transform: translateX(10px); } 
+            100% { transform: translateX(0); } 
         }
-        
-        button:hover { background: #FFFFE0; color: #8B0000; }
+
+        .do-glitch { animation: glitch 0.3s linear; }
+
+        .btn { 
+            padding: 12px 30px; border: 2px solid #FFFFE0; background: none; 
+            color: #FFFFE0; cursor: pointer; font-family: Impact, sans-serif; font-size: 30px;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>hub access</h1>
-        <input type="password" id="pass" placeholder="enter key">
-        <button onclick="checkPass()">submit</button>
-    </div>
+    <div class="glitch-overlay" id="overlay"></div>
+    <h1>THE GIFT</h1>
+    <button class="btn" id="enterBtn">enter hub</button>
 
     <script>
-        function checkPass() {
-            let p = document.getElementById("pass").value;
-            if (p === "123456") { // Thay mật khẩu ở đây
-                window.location.href = "gift_content.html"; // Trang đích
-            } else {
-                alert("Access Denied.");
-            }
-        }
+        document.getElementById('enterBtn').onclick = function() {
+            const overlay = document.getElementById('overlay');
+            const body = document.body;
+
+            // 1. Chạy hiệu ứng nhiễu
+            overlay.style.opacity = '1';
+            body.classList.add('do-glitch');
+
+            // 2. Sau 0.3s thì đổi nền sang cảnh 2 (IMG_5885.png)
+            setTimeout(() => {
+                body.style.backgroundImage = "url('IMG_5885.png')";
+                overlay.style.opacity = '0';
+                body.classList.remove('do-glitch');
+                document.querySelector('h1').style.display = 'none'; // Ẩn chữ đi
+                document.getElementById('enterBtn').style.display = 'none';
+            }, 300);
+        };
     </script>
 </body>
 </html>
