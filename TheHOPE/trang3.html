@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - Letter</title>
+    <!-- Nhúng Google Fonts: Montserrat, Caveat (Font chữ viết tay tiếng Việt), Abril Fatface -->
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@600&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff4d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            padding: 30px 15px;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulseAlert {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes paperOpen {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Khung bao thư trắng ở trạng thái ban đầu */
+        #envelope-container {
+            position: relative;
+            width: 320px;
+            height: 210px;
+            background: #fdfbf7;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 230, 153, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease forwards;
+            cursor: pointer;
+            border: 2px solid #e0d6c3;
+        }
+
+        /* Nắp phong bì trang trí */
+        #envelope-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #f0e6d2;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+        }
+
+        /* Chấm than đỏ to đùng góc phải trên phong bì */
+        #badge-alert {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 36px;
+            height: 36px;
+            background: #ff4d4d;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.3rem;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
+            animation: pulseAlert 0.8s infinite ease-in-out;
+            z-index: 10;
+        }
+
+        /* Dòng chữ thông báo dưới phong bì */
+        #notification-text {
+            margin-top: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 230, 153, 0.7);
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.5s;
+        }
+
+        /* Vòng tròn "open?" ở chính giữa phong bì */
+        #open-circle {
+            position: relative;
+            z-index: 5;
+            width: 80px;
+            height: 80px;
+            background: rgba(26, 8, 8, 0.85);
+            border: 2px solid #ffe699;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Abril Fatface', serif;
+            font-size: 1rem;
+            color: #ffe699;
+            box-shadow: 0 0 15px rgba(255, 230, 153, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        #open-circle:hover {
+            transform: scale(1.1);
+            background: #ffe699;
+            color: #1a0808;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Tờ giấy A4 mở ra chứa lời nhắn */
+        #letter-sheet {
+            display: none;
+            width: 340px;
+            max-width: 90vw;
+            background: #fefdf9;
+            color: #2c221e;
+            padding: 35px 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 153, 0.4);
+            animation: paperOpen 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            text-align: left;
+            border: 1px solid #e2d9c4;
+        }
+
+        .letter-content {
+            font-family: 'Caveat', cursive;
+            font-size: 1.6rem;
+            line-height: 1.5;
+            color: #3d2c25;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Nút Done hình mũi tên dạng khung viền vàng ánh sáng vàng */
+        #done-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #done-btn {
+            background: rgba(26, 8, 8, 0.8);
+            border: 2px solid #ffe699;
+            color: #ffe699;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 230, 153, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #done-btn:hover {
+            background: #ffe699;
+            color: #1a0808;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Hiệu ứng ma trận chuyển sang trang 4 */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Giao diện Ban đầu: Phong bì trắng & Chấm than + Thông báo -->
+    <div id="wrapper-section">
+        <div id="envelope-container" onclick="openLetter()">
+            <div id="badge-alert">!</div>
+            <div id="open-circle">open?</div>
+        </div>
+        <div id="notification-text">You have a notification!</div>
+    </div>
+
+    <!-- Giao diện Tờ A4 mở ra sau khi click open -->
+    <div id="letter-sheet">
+        <div class="letter-content">
+            Anyway<br>
+            Trước kết, Đông có thể giúp chị uống một cốc nước nhỏ và rửa tay bằng nước mát trước khi chúng ta tiếp tục k nè >< ?
+        </div>
+        <div id="done-btn-container">
+            <button id="done-btn" onclick="triggerMatrixTransition()">
+                done? &rarr;
+            </button>
+        </div>
+    </div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script>
+        function openLetter() {
+            // Ẩn phong bì và thông báo
+            document.getElementById('wrapper-section').style.display = 'none';
+            // Hiện tờ giấy A4 chứa lời nhắn
+            document.getElementById('letter-sheet').style.display = 'block';
+        }
+
+        // Hiệu ứng ma trận chuyển sang trang 4
+        function triggerMatrixTransition() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ffeaa7';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang4.html"; // Chuyển sang Trang 4
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
