@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - Authentication</title>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=BioRhyme:wght@400;700&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Giữ nguyên nền cũ từ trang 1 */
+            background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff4d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            padding: 30px 15px;
+            position: relative;
+        }
+
+        /* Hiệu ứng nảy lên cho các dòng thông báo chính */
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            60% { opacity: 1; transform: translateY(-8px); }
+            80% { transform: translateY(4px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hiệu ứng mờ dần hiện ra */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hiệu ứng rung khi nhập sai pass */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        .bounce-text {
+            opacity: 0;
+            animation: bounceIn 0.8s ease forwards;
+        }
+
+        .fade-text {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        /* 1. "wait!" */
+        #wait-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: lowercase;
+            color: #ffe699;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 230, 153, 0.4);
+        }
+
+        /* 2. "can i have your name plz><?" */
+        #ask-name {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.5rem;
+            color: #ffeaa7;
+            margin-bottom: 12px;
+            min-height: 35px;
+            text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
+        }
+
+        /* 3. "(i mean, ur full name.)" */
+        #sub-note-1 {
+            font-family: 'BioRhyme', serif;
+            font-size: 0.95rem;
+            color: #fce181;
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(252, 225, 129, 0.3);
+        }
+
+        /* 4. "[NOTE: My name is...]" */
+        #sub-note-2 {
+            font-family: 'BioRhyme', serif;
+            font-size: 0.75rem;
+            color: #d1b870;
+            max-width: 550px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        #sub-note-2 strong {
+            color: #ffe699;
+        }
+
+        /* 5. "<< pls: write your name correctly... >>" */
+        #warning-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: lowercase;
+            color: #fce181;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(252, 225, 129, 0.4);
+        }
+
+        /* Khung nhập pass */
+        #input-container {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.8s ease;
+            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #input-container.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #pass-input {
+            width: 320px;
+            padding: 12px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            background: rgba(26, 8, 8, 0.6);
+            border: 2px solid #ffe699;
+            border-radius: 30px;
+            color: #fff4d9;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 230, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #pass-input:focus {
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Trạng thái lỗi (sai pass) */
+        #pass-input.error {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
+            animation: shake 0.4s ease;
+        }
+
+        /* Thông báo lỗi bên dưới ô input */
+        #error-message-box {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .error-line-1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ff4d4d;
+            text-shadow: 0 0 10px rgba(255, 230, 153, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .error-line-2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: #ff6b6b;
+            text-shadow: 0 0 8px rgba(255, 230, 153, 0.5);
+            margin-bottom: 15px;
+        }
+
+        /* Nút Try Again */
+        #try-again-btn {
+            background: transparent;
+            border: 1px solid #ffe699;
+            color: #ffe699;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 230, 153, 0.2);
+        }
+
+        #try-again-btn:hover {
+            background: #ffe699;
+            color: #1a0808;
+            box-shadow: 0 0 15px rgba(255, 230, 153, 0.8);
+        }
+
+        /* Hiệu ứng Ma Trận chuyển sang trang 3 */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wait-text"></div>
+    <div id="ask-name"></div>
+    <div id="sub-note-1"></div>
+    <div id="sub-note-2"></div>
+    <div id="warning-text"></div>
+
+    <div id="input-container">
+        <input type="text" id="pass-input" placeholder="nhập tên của bạn ở đây..." autocomplete="off">
+        
+        <div id="error-message-box">
+            <div class="error-line-1">#INCORRECT!</div>
+            <div class="error-line-2">sorry, you're not the person I'm looking for.</div>
+            <button id="try-again-btn" onclick="resetForm()">try again.</button>
+        </div>
+    </div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script>
+        const waitEl = document.getElementById('wait-text');
+        const askNameEl = document.getElementById('ask-name');
+        const subNote1El = document.getElementById('sub-note-1');
+        const subNote2El = document.getElementById('sub-note-2');
+        const warningEl = document.getElementById('warning-text');
+        const inputContainer = document.getElementById('input-container');
+        const passInput = document.getElementById('pass-input');
+        const errorBox = document.getElementById('error-message-box');
+
+        const askText = "can i have your name plz><?";
+        const subText1 = "(i mean, ur full name.)";
+        const subText2 = "[NOTE: My name is Nguyễn Khánh Ngọc, but I'll write it as <strong>NGUYEN KHANH NGOC</strong> (without Vietnamese diacritics).]";
+        const warningTextStr = "<< pls: write your name correctly so we can continue, okay?>>";
+
+        function typeWriter(element, text, speed, callback) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // Trình tự xuất hiện các dòng chữ
+        window.onload = () => {
+            // 1. "wait!" nảy lên
+            setTimeout(() => {
+                waitEl.innerHTML = "wait!";
+                waitEl.classList.add('bounce-text');
+            }, 400);
+
+            // 2. "can i have your name plz><?" gõ phím
+            setTimeout(() => {
+                typeWriter(askNameEl, askText, 45, () => {
+                    // 3. "(i mean, ur full name.)" rõ dần
+                    setTimeout(() => {
+                        subNote1El.innerHTML = subText1;
+                        subNote1El.classList.add('fade-text');
+                        
+                        // 4. "[NOTE:...]" rõ dần
+                        setTimeout(() => {
+                            subNote2El.innerHTML = subText2;
+                            subNote2El.classList.add('fade-text');
+
+                            // 5. "<< pls:... >>" nảy lên
+                            setTimeout(() => {
+                                warningEl.innerHTML = warningTextStr;
+                                warningEl.classList.add('bounce-text');
+
+                                // Hiện ô nhập pass
+                                setTimeout(() => {
+                                    inputContainer.classList.add('show');
+                                    passInput.focus();
+                                }, 600);
+                            }, 800);
+                        }, 600);
+                    }, 500);
+                });
+            }, 1200);
+        };
+
+        // Lắng nghe sự kiện nhấn Enter khi nhập pass
+        passInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function checkPassword() {
+            const enteredValue = passInput.value.trim();
+            // So sánh chính xác với "QUACH ANH DONG" (cho phép viết thường/viết hoa tùy ý hoặc khớp chuẩn)
+            if (enteredValue === "QUACH ANH DONG") {
+                triggerMatrixTransition();
+            } else {
+                // Nếu sai: Khung đổi sang đỏ + hiệu ứng rung + hiện thông báo lỗi
+                passInput.classList.add('error');
+                errorBox.style.display = 'block';
+                passInput.disabled = true; // Khóa tạm ô input chờ bấm try again
+            }
+        }
+
+        function resetForm() {
+            passInput.classList.remove('error');
+            errorBox.style.display = 'none';
+            passInput.value = "";
+            passInput.disabled = false;
+            passInput.focus();
+        }
+
+        // Hiệu ứng ma trận chuyển sang trang 3
+        function triggerMatrixTransition() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ffeaa7';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang3.html"; // Chuyển sang Trang 3 khi làm xong
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
