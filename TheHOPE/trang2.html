@@ -13,7 +13,6 @@
         }
 
         body {
-            /* Giữ nguyên nền cũ từ trang 1 */
             background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
             background-size: cover;
             background-position: center;
@@ -31,7 +30,6 @@
             position: relative;
         }
 
-        /* Hiệu ứng nảy lên cho các dòng thông báo chính */
         @keyframes bounceIn {
             0% { opacity: 0; transform: translateY(20px); }
             60% { opacity: 1; transform: translateY(-8px); }
@@ -39,17 +37,21 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hiệu ứng mờ dần hiện ra */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Hiệu ứng rung khi nhập sai pass */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-10px); }
             40%, 80% { transform: translateX(10px); }
+        }
+
+        /* Hiệu ứng ngôi sao nhỏ nhảy ra khi đúng pass */
+        @keyframes starPop {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1.8) translateY(-40px); opacity: 0; }
         }
 
         .bounce-text {
@@ -62,7 +64,6 @@
             animation: fadeIn 1s ease forwards;
         }
 
-        /* 1. "wait!" */
         #wait-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -73,7 +74,6 @@
             text-shadow: 0 0 10px rgba(255, 230, 153, 0.4);
         }
 
-        /* 2. "can i have your name plz><?" */
         #ask-name {
             font-family: 'Abril Fatface', serif;
             font-size: 1.5rem;
@@ -83,7 +83,6 @@
             text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
         }
 
-        /* 3. "(i mean, ur full name.)" */
         #sub-note-1 {
             font-family: 'BioRhyme', serif;
             font-size: 0.95rem;
@@ -92,7 +91,6 @@
             text-shadow: 0 0 8px rgba(252, 225, 129, 0.3);
         }
 
-        /* 4. "[NOTE: My name is...]" */
         #sub-note-2 {
             font-family: 'BioRhyme', serif;
             font-size: 0.75rem;
@@ -106,7 +104,6 @@
             color: #ffe699;
         }
 
-        /* 5. "<< pls: write your name correctly... >>" */
         #warning-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -117,7 +114,6 @@
             text-shadow: 0 0 10px rgba(252, 225, 129, 0.4);
         }
 
-        /* Khung nhập pass */
         #input-container {
             opacity: 0;
             transform: scale(0.95);
@@ -126,6 +122,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         #input-container.show {
@@ -152,14 +149,19 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
         }
 
-        /* Trạng thái lỗi (sai pass) */
+        /* Sai pass */
         #pass-input.error {
             border-color: #ff4d4d;
             box-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
             animation: shake 0.4s ease;
         }
 
-        /* Thông báo lỗi bên dưới ô input */
+        /* Đúng pass */
+        #pass-input.success {
+            border-color: #2ecc71;
+            box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
+        }
+
         #error-message-box {
             display: none;
             margin-top: 15px;
@@ -183,8 +185,32 @@
             margin-bottom: 15px;
         }
 
-        /* Nút Try Again */
-        #try-again-btn {
+        /* Khối thông báo thành công */
+        #success-message-box {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .success-line-1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2ecc71;
+            text-shadow: 0 0 10px rgba(255, 230, 153, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .success-line-2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: #27ae60;
+            text-shadow: 0 0 8px rgba(255, 230, 153, 0.5);
+            margin-bottom: 15px;
+        }
+
+        /* Nút Try Again & Next */
+        .action-btn {
             background: transparent;
             border: 1px solid #ffe699;
             color: #ffe699;
@@ -197,13 +223,23 @@
             box-shadow: 0 0 10px rgba(255, 230, 153, 0.2);
         }
 
-        #try-again-btn:hover {
+        .action-btn:hover {
             background: #ffe699;
             color: #1a0808;
             box-shadow: 0 0 15px rgba(255, 230, 153, 0.8);
         }
 
-        /* Hiệu ứng Ma Trận chuyển sang trang 3 */
+        /* Ngôi sao hiệu ứng bay */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffe699;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: starPop 0.8s ease forwards;
+            pointer-events: none;
+        }
+
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -230,7 +266,13 @@
         <div id="error-message-box">
             <div class="error-line-1">#INCORRECT!</div>
             <div class="error-line-2">sorry, you're not the person I'm looking for.</div>
-            <button id="try-again-btn" onclick="resetForm()">try again.</button>
+            <button class="action-btn" onclick="resetForm()">try again.</button>
+        </div>
+
+        <div id="success-message-box">
+            <div class="success-line-1">#CORRECT!</div>
+            <div class="success-line-2">welcome again, you're the person I'm looking for.</div>
+            <button class="action-btn" onclick="triggerMatrixTransition()">next&lt;!</button>
         </div>
     </div>
 
@@ -245,6 +287,7 @@
         const inputContainer = document.getElementById('input-container');
         const passInput = document.getElementById('pass-input');
         const errorBox = document.getElementById('error-message-box');
+        const successBox = document.getElementById('success-message-box');
 
         const askText = "can i have your name plz><?";
         const subText1 = "(i mean, ur full name.)";
@@ -265,33 +308,26 @@
             type();
         }
 
-        // Trình tự xuất hiện các dòng chữ
         window.onload = () => {
-            // 1. "wait!" nảy lên
             setTimeout(() => {
                 waitEl.innerHTML = "wait!";
                 waitEl.classList.add('bounce-text');
             }, 400);
 
-            // 2. "can i have your name plz><?" gõ phím
             setTimeout(() => {
                 typeWriter(askNameEl, askText, 45, () => {
-                    // 3. "(i mean, ur full name.)" rõ dần
                     setTimeout(() => {
                         subNote1El.innerHTML = subText1;
                         subNote1El.classList.add('fade-text');
                         
-                        // 4. "[NOTE:...]" rõ dần
                         setTimeout(() => {
                             subNote2El.innerHTML = subText2;
                             subNote2El.classList.add('fade-text');
 
-                            // 5. "<< pls:... >>" nảy lên
                             setTimeout(() => {
                                 warningEl.innerHTML = warningTextStr;
                                 warningEl.classList.add('bounce-text');
 
-                                // Hiện ô nhập pass
                                 setTimeout(() => {
                                     inputContainer.classList.add('show');
                                     passInput.focus();
@@ -303,7 +339,6 @@
             }, 1200);
         };
 
-        // Lắng nghe sự kiện nhấn Enter khi nhập pass
         passInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 checkPassword();
@@ -311,27 +346,42 @@
         });
 
         function checkPassword() {
-            const enteredValue = passInput.value.trim();
-            // So sánh chính xác với "QUACH ANH DONG" (cho phép viết thường/viết hoa tùy ý hoặc khớp chuẩn)
-            if (enteredValue === "QUACH ANH DONG") {
-                triggerMatrixTransition();
+            const enteredValue = passInput.value.trim().toLowerCase();
+            // Không phân biệt hoa/thường, chỉ cần chứa chuẩn từ khóa "quach anh dong"
+            if (enteredValue === "quach anh dong") {
+                passInput.classList.add('success');
+                successBox.style.display = 'block';
+                passInput.disabled = true;
+                createSparkles();
             } else {
-                // Nếu sai: Khung đổi sang đỏ + hiệu ứng rung + hiện thông báo lỗi
                 passInput.classList.add('error');
                 errorBox.style.display = 'block';
-                passInput.disabled = true; // Khóa tạm ô input chờ bấm try again
+                passInput.disabled = true;
+            }
+        }
+
+        // Tạo hiệu ứng ngôi sao nhỏ bay ra
+        function createSparkles() {
+            for (let i = 0; i < 6; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                const rect = passInput.getBoundingClientRect();
+                sparkle.style.left = (rect.width / 2 + (Math.random() * 100 - 50)) + 'px';
+                sparkle.style.top = (rect.height / 2) + 'px';
+                inputContainer.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
             }
         }
 
         function resetForm() {
-            passInput.classList.remove('error');
+            passInput.classList.remove('error', 'success');
             errorBox.style.display = 'none';
+            successBox.style.display = 'none';
             passInput.value = "";
             passInput.disabled = false;
             passInput.focus();
         }
 
-        // Hiệu ứng ma trận chuyển sang trang 3
         function triggerMatrixTransition() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -370,7 +420,7 @@
             setInterval(drawMatrix, 30);
 
             setTimeout(() => {
-                window.location.href = "trang3.html"; // Chuyển sang Trang 3 khi làm xong
+                window.location.href = "trang3.html"; // Chuyển sang Trang 3
             }, 1800);
         }
     </script>
