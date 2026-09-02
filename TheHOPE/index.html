@@ -13,6 +13,7 @@
         }
 
         body {
+            /* Sử dụng ảnh nền IMG_6741.PNG với chế độ phủ màu tối nhẹ để chữ nổi bật */
             background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
             background-size: cover;
             background-position: center;
@@ -30,7 +31,7 @@
             position: relative;
         }
 
-        /* Dòng 1: GREETING. */
+        /* Dòng 1: GREETING. (Vàng pastel to rõ) */
         #greeting {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -66,7 +67,7 @@
             text-shadow: 0 0 10px rgba(252, 225, 129, 0.3);
         }
 
-        /* Khung chứa hình letsgo.png (Đã bỏ hoàn toàn khung viền) */
+        /* Khung chứa hình letsgo.png */
         #custom-image-container {
             opacity: 0;
             transform: scale(0.9);
@@ -82,28 +83,25 @@
             pointer-events: auto;
         }
 
-        /* Style cho letsgo.png: Không viền, có hiệu ứng nổi lên khi hover */
+        /* Style cho letsgo.png */
         #custom-image-container img {
             width: 280px; 
             height: auto;
             border-radius: 16px;
-            border: none; /* Bỏ viền */
-            background: transparent;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng nhẹ phía dưới cho tự nhiên */
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+            box-shadow: 0 10px 30px rgba(180, 50, 50, 0.4);
+            border: 2px solid rgba(255, 230, 153, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        /* Hiệu ứng di chuột tới: Nổi lên và sáng hơn chút */
         #custom-image-container img:hover {
-            transform: translateY(-8px) scale(1.05); /* Bay lên 8px và phóng to nhẹ */
-            filter: brightness(1.1);
-            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
         }
 
         .hint-text {
             font-size: 0.85rem;
             color: #d1b870;
-            margin-top: 12px;
+            margin-top: 10px;
             opacity: 0;
             transition: opacity 1s ease;
         }
