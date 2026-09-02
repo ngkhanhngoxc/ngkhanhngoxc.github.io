@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Nền đỏ ấm đặc trưng của bức tranh */
+            background-color: #1a0808;
+            color: #fff4d9; /* Màu vàng pastel nhẹ nhàng cho toàn trang */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            padding: 30px 15px;
+            position: relative;
+        }
+
+        /* Dòng 1: GREETING. (Vàng pastel to rõ) */
+        #greeting {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            margin-bottom: 15px;
+            color: #ffe699; /* Vàng pastel sáng */
+            text-shadow: 0 0 15px rgba(255, 230, 153, 0.3);
+        }
+
+        /* Dòng 2: Wishing you a wonderful day ><. */
+        #wishing {
+            font-weight: 400;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            min-height: 35px;
+            white-space: nowrap;
+            color: #ffeaa7; /* Vàng pastel ấm */
+        }
+
+        /* Dòng 3: Take my hand... */
+        #take-hand {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.1rem;
+            color: #fce181; /* Vàng pastel trầm hơn một chút cho font chữ nghệ thuật */
+            margin-bottom: 25px;
+            min-height: 30px;
+            max-width: 600px;
+        }
+
+        /* Khung chứa bức ảnh của bạn */
+        #custom-image-container {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+            cursor: pointer;
+            pointer-events: none;
+            margin-top: 5px;
+        }
+
+        #custom-image-container.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        /* Style cho bức ảnh nghệ thuật */
+        #custom-image-container img {
+            width: 280px; 
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(180, 50, 50, 0.3);
+            border: 2px solid rgba(255, 230, 153, 0.3); /* Viền màu vàng pastel nhẹ */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        #custom-image-container img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .hint-text {
+            font-size: 0.85rem;
+            color: #d1b870; /* Vàng pastel hơi tối để làm gợi ý nhỏ */
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #custom-image-container.show .hint-text {
+            opacity: 1;
+        }
+
+        /* Hiệu ứng chuyển trang Ma Trận chữ vàng pastel */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="greeting">GREETING.</div>
+    <div id="wishing"></div>
+    <div id="take-hand"></div>
+
+    <div id="custom-image-container" onclick="triggerMatrixTransition()">
+        <img src="anh-bia.png" alt="Let's go to this place">
+        <div class="hint-text">(Nhấn vào hình để tiếp tục...)</div>
+    </div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script>
+        const greetingEl = document.getElementById('greeting');
+        const wishingEl = document.getElementById('wishing');
+        const takeHandEl = document.getElementById('take-hand');
+        const imgContainer = document.getElementById('custom-image-container');
+
+        const wishingText = "Wishing you a wonderful day ><.";
+        const takeHandText = "Take my hand and let me take you to this place, okay?";
+
+        function typeWriter(element, text, speed, callback) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        window.onload = () => {
+            setTimeout(() => {
+                greetingEl.style.opacity = 1;
+            }, 500);
+
+            setTimeout(() => {
+                typeWriter(wishingEl, wishingText, 50, () => {
+                    setTimeout(() => {
+                        typeWriter(takeHandEl, takeHandText, 35, () => {
+                            setTimeout(() => {
+                                imgContainer.classList.add('show');
+                            }, 600);
+                        });
+                    }, 2000);
+                });
+            }, 1500); 
+        };
+
+        function triggerMatrixTransition() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)'; // Khớp màu nền đỏ tối
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ffeaa7'; // Màu ma trận chuyển sang vàng pastel cực kỳ hợp tông
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang2.html";
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
