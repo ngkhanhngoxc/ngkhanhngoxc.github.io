@@ -30,18 +30,18 @@
             position: relative;
         }
 
-        /* Dòng 1 mới: The HOPE. (Font Abril Fatface nhỏ gọn y hệt Take my hand) */
+        /* Dòng 1: The HOPE. (Font nhỏ, thanh lịch y hệt Take my hand) */
         #the-hope {
             font-family: 'Abril Fatface', serif;
             font-size: 1.2rem;
             color: #fce181;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
             text-shadow: 0 0 10px rgba(252, 225, 129, 0.3);
         }
 
-        /* Dòng 2: GREETING. (To bản, đậm nét y hệt kiểu cũ) */
+        /* Dòng 2: GREETING. (To bản, đậm nét kiểu cũ) */
         #greeting {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -169,17 +169,14 @@
         }
 
         window.onload = () => {
-            // Hiển thị The HOPE trước
             setTimeout(() => {
                 theHopeEl.style.opacity = 1;
             }, 300);
 
-            // Tiếp theo hiện GREETING
             setTimeout(() => {
                 greetingEl.style.opacity = 1;
             }, 1000);
 
-            // Chạy chữ Wishing và Take my hand
             setTimeout(() => {
                 typeWriter(wishingEl, wishingText, 50, () => {
                     typeWriter(takeHandEl, takeHandText, 35, () => {
