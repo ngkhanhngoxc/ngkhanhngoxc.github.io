@@ -13,9 +13,12 @@
         }
 
         body {
-            /* Nền đỏ ấm đặc trưng của bức tranh */
-            background-color: #1a0808;
-            color: #fff4d9; /* Màu vàng pastel nhẹ nhàng cho toàn trang */
+            /* Sử dụng ảnh nền IMG_6741.PNG với chế độ phủ màu tối nhẹ để chữ nổi bật */
+            background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff4d9;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -38,8 +41,8 @@
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
             margin-bottom: 15px;
-            color: #ffe699; /* Vàng pastel sáng */
-            text-shadow: 0 0 15px rgba(255, 230, 153, 0.3);
+            color: #ffe699;
+            text-shadow: 0 0 15px rgba(255, 230, 153, 0.4);
         }
 
         /* Dòng 2: Wishing you a wonderful day ><. */
@@ -49,20 +52,22 @@
             margin-bottom: 15px;
             min-height: 35px;
             white-space: nowrap;
-            color: #ffeaa7; /* Vàng pastel ấm */
+            color: #ffeaa7;
+            text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
         }
 
         /* Dòng 3: Take my hand... */
         #take-hand {
             font-family: 'Abril Fatface', serif;
             font-size: 1.1rem;
-            color: #fce181; /* Vàng pastel trầm hơn một chút cho font chữ nghệ thuật */
+            color: #fce181;
             margin-bottom: 25px;
             min-height: 30px;
             max-width: 600px;
+            text-shadow: 0 0 10px rgba(252, 225, 129, 0.3);
         }
 
-        /* Khung chứa bức ảnh của bạn */
+        /* Khung chứa hình letsgo.png */
         #custom-image-container {
             opacity: 0;
             transform: scale(0.9);
@@ -78,24 +83,24 @@
             pointer-events: auto;
         }
 
-        /* Style cho bức ảnh nghệ thuật */
+        /* Style cho letsgo.png */
         #custom-image-container img {
             width: 280px; 
             height: auto;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(180, 50, 50, 0.3);
-            border: 2px solid rgba(255, 230, 153, 0.3); /* Viền màu vàng pastel nhẹ */
+            box-shadow: 0 10px 30px rgba(180, 50, 50, 0.4);
+            border: 2px solid rgba(255, 230, 153, 0.3);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         #custom-image-container img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
         }
 
         .hint-text {
             font-size: 0.85rem;
-            color: #d1b870; /* Vàng pastel hơi tối để làm gợi ý nhỏ */
+            color: #d1b870;
             margin-top: 10px;
             opacity: 0;
             transition: opacity 1s ease;
@@ -125,7 +130,7 @@
     <div id="take-hand"></div>
 
     <div id="custom-image-container" onclick="triggerMatrixTransition()">
-        <img src="anh-bia.png" alt="Let's go to this place">
+        <img src="letsgo.png" alt="Let's go to this place">
         <div class="hint-text">(Nhấn vào hình để tiếp tục...)</div>
     </div>
 
@@ -190,10 +195,10 @@
             }
 
             function drawMatrix() {
-                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)'; // Khớp màu nền đỏ tối
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.fillStyle = '#ffeaa7'; // Màu ma trận chuyển sang vàng pastel cực kỳ hợp tông
+                ctx.fillStyle = '#ffeaa7';
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < drops.length; i++) {
