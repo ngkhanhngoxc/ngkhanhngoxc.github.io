@@ -30,6 +30,18 @@
             position: relative;
         }
 
+        /* Dòng 1 mới: The HOPE. (Font Abril Fatface nhỏ gọn y hệt Take my hand) */
+        #the-hope {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.2rem;
+            color: #fce181;
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            text-shadow: 0 0 10px rgba(252, 225, 129, 0.3);
+        }
+
+        /* Dòng 2: GREETING. (To bản, đậm nét y hệt kiểu cũ) */
         #greeting {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -43,6 +55,7 @@
             text-shadow: 0 0 15px rgba(255, 230, 153, 0.4);
         }
 
+        /* Dòng 3: Wishing you a wonderful day ><. */
         #wishing {
             font-weight: 400;
             font-size: 1.5rem;
@@ -53,6 +66,7 @@
             text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
         }
 
+        /* Dòng 4: Take my hand... */
         #take-hand {
             font-family: 'Abril Fatface', serif;
             font-size: 1.1rem;
@@ -118,7 +132,8 @@
 </head>
 <body>
 
-    <div id="greeting">THE HOPE.</div>
+    <div id="the-hope">The HOPE.</div>
+    <div id="greeting">GREETING.</div>
     <div id="wishing"></div>
     <div id="take-hand"></div>
 
@@ -130,6 +145,7 @@
     <canvas id="matrix-canvas"></canvas>
 
     <script>
+        const theHopeEl = document.getElementById('the-hope');
         const greetingEl = document.getElementById('greeting');
         const wishingEl = document.getElementById('wishing');
         const takeHandEl = document.getElementById('take-hand');
@@ -153,10 +169,17 @@
         }
 
         window.onload = () => {
+            // Hiển thị The HOPE trước
+            setTimeout(() => {
+                theHopeEl.style.opacity = 1;
+            }, 300);
+
+            // Tiếp theo hiện GREETING
             setTimeout(() => {
                 greetingEl.style.opacity = 1;
-            }, 500);
+            }, 1000);
 
+            // Chạy chữ Wishing và Take my hand
             setTimeout(() => {
                 typeWriter(wishingEl, wishingText, 50, () => {
                     typeWriter(takeHandEl, takeHandText, 35, () => {
@@ -165,7 +188,7 @@
                         }, 500);
                     });
                 });
-            }, 1500); 
+            }, 2000); 
         };
 
         function triggerMatrixTransition() {
