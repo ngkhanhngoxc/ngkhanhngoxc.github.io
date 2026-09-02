@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Letter</title>
-    <!-- Nhúng Google Fonts: Montserrat, Caveat (Font chữ viết tay tiếng Việt), Abril Fatface -->
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@600&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Nhúng Google Fonts: Montserrat, Abril Fatface -->
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -46,7 +46,7 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        /* Khung bao thư trắng ở trạng thái ban đầu */
+        /* Khung bao thư trắng */
         #envelope-container {
             position: relative;
             width: 320px;
@@ -62,7 +62,6 @@
             border: 2px solid #e0d6c3;
         }
 
-        /* Nắp phong bì trang trí */
         #envelope-container::before {
             content: '';
             position: absolute;
@@ -75,7 +74,6 @@
             transition: transform 0.6s ease;
         }
 
-        /* Chấm than đỏ to đùng góc phải trên phong bì */
         #badge-alert {
             position: absolute;
             top: -12px;
@@ -95,7 +93,6 @@
             z-index: 10;
         }
 
-        /* Dòng chữ thông báo dưới phong bì */
         #notification-text {
             margin-top: 20px;
             font-family: 'Montserrat', sans-serif;
@@ -107,7 +104,6 @@
             animation: fadeIn 1s ease forwards 0.5s;
         }
 
-        /* Vòng tròn "open?" ở chính giữa phong bì */
         #open-circle {
             position: relative;
             z-index: 5;
@@ -133,10 +129,10 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
         }
 
-        /* Tờ giấy A4 mở ra chứa lời nhắn */
+        /* Tờ giấy A4 mở ra */
         #letter-sheet {
             display: none;
-            width: 340px;
+            width: 380px;
             max-width: 90vw;
             background: #fefdf9;
             color: #2c221e;
@@ -145,20 +141,20 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 153, 0.4);
             animation: paperOpen 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             position: relative;
-            text-align: left;
+            text-align: center;
             border: 1px solid #e2d9c4;
         }
 
         .letter-content {
-            font-family: 'Caveat', cursive;
-            font-size: 1.6rem;
-            line-height: 1.5;
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
             color: #3d2c25;
             margin-bottom: 25px;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
-        /* Nút Done hình mũi tên dạng khung viền vàng ánh sáng vàng */
         #done-btn-container {
             display: flex;
             justify-content: center;
@@ -189,7 +185,6 @@
             transform: scale(1.05);
         }
 
-        /* Hiệu ứng ma trận chuyển sang trang 4 */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -204,7 +199,6 @@
 </head>
 <body>
 
-    <!-- Giao diện Ban đầu: Phong bì trắng & Chấm than + Thông báo -->
     <div id="wrapper-section">
         <div id="envelope-container" onclick="openLetter()">
             <div id="badge-alert">!</div>
@@ -213,7 +207,6 @@
         <div id="notification-text">You have a notification!</div>
     </div>
 
-    <!-- Giao diện Tờ A4 mở ra sau khi click open -->
     <div id="letter-sheet">
         <div class="letter-content">
             Anyway<br>
@@ -230,13 +223,10 @@
 
     <script>
         function openLetter() {
-            // Ẩn phong bì và thông báo
             document.getElementById('wrapper-section').style.display = 'none';
-            // Hiện tờ giấy A4 chứa lời nhắn
             document.getElementById('letter-sheet').style.display = 'block';
         }
 
-        // Hiệu ứng ma trận chuyển sang trang 4
         function triggerMatrixTransition() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -275,7 +265,7 @@
             setInterval(drawMatrix, 30);
 
             setTimeout(() => {
-                window.location.href = "trang4.html"; // Chuyển sang Trang 4
+                window.location.href = "trang4.html";
             }, 1800);
         }
     </script>
