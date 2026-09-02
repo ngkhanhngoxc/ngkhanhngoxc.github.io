@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greeting</title>
+    <title>The HOPE</title>
     <!-- Nhúng Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -31,6 +31,7 @@
             position: relative;
         }
 
+        /* Đã đổi thành THE HOPE. */
         #greeting {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -119,7 +120,8 @@
 </head>
 <body>
 
-    <div id="greeting">GREETING.</div>
+    <!-- Đã đổi chữ hiển thị -->
+    <div id="greeting">THE HOPE.</div>
     <div id="wishing"></div>
     <div id="take-hand"></div>
 
@@ -160,7 +162,6 @@
 
             setTimeout(() => {
                 typeWriter(wishingEl, wishingText, 50, () => {
-                    // Chạy ngay dòng Take my hand luôn không cần chờ 2 giây nữa
                     typeWriter(takeHandEl, takeHandText, 35, () => {
                         setTimeout(() => {
                             imgContainer.classList.add('show');
