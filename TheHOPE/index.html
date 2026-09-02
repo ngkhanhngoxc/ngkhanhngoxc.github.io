@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greeting</title>
+    <!-- Nhúng Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -13,7 +14,6 @@
         }
 
         body {
-            /* Sử dụng ảnh nền IMG_6741.PNG với chế độ phủ màu tối nhẹ để chữ nổi bật */
             background: linear-gradient(rgba(26, 8, 8, 0.75), rgba(26, 8, 8, 0.75)), url('IMG_6741.PNG');
             background-size: cover;
             background-position: center;
@@ -31,7 +31,6 @@
             position: relative;
         }
 
-        /* Dòng 1: GREETING. (Vàng pastel to rõ) */
         #greeting {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
@@ -45,7 +44,6 @@
             text-shadow: 0 0 15px rgba(255, 230, 153, 0.4);
         }
 
-        /* Dòng 2: Wishing you a wonderful day ><. */
         #wishing {
             font-weight: 400;
             font-size: 1.5rem;
@@ -56,7 +54,6 @@
             text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
         }
 
-        /* Dòng 3: Take my hand... */
         #take-hand {
             font-family: 'Abril Fatface', serif;
             font-size: 1.1rem;
@@ -67,7 +64,6 @@
             text-shadow: 0 0 10px rgba(252, 225, 129, 0.3);
         }
 
-        /* Khung chứa hình letsgo.png */
         #custom-image-container {
             opacity: 0;
             transform: scale(0.9);
@@ -83,7 +79,6 @@
             pointer-events: auto;
         }
 
-        /* Style cho letsgo.png */
         #custom-image-container img {
             width: 280px; 
             height: auto;
@@ -110,7 +105,6 @@
             opacity: 1;
         }
 
-        /* Hiệu ứng chuyển trang Ma Trận chữ vàng pastel */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -166,13 +160,12 @@
 
             setTimeout(() => {
                 typeWriter(wishingEl, wishingText, 50, () => {
-                    setTimeout(() => {
-                        typeWriter(takeHandEl, takeHandText, 35, () => {
-                            setTimeout(() => {
-                                imgContainer.classList.add('show');
-                            }, 600);
-                        });
-                    }, 2000);
+                    // Chạy ngay dòng Take my hand luôn không cần chờ 2 giây nữa
+                    typeWriter(takeHandEl, takeHandText, 35, () => {
+                        setTimeout(() => {
+                            imgContainer.classList.add('show');
+                        }, 500);
+                    });
                 });
             }, 1500); 
         };
