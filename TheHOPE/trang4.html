@@ -53,14 +53,13 @@
             box-shadow: none;
         }
 
-        /* Khung chat: Đỏ đậm pha đen mờ (translucent), nhìn xuyên thấu nền phía sau */
         #dialogue-box {
             position: absolute;
             bottom: 25px;
             left: 210px;
             right: 25px;
-            background: rgba(45, 10, 10, 0.65); /* Đỏ đậm trong suốt mờ mờ */
-            backdrop-filter: blur(4px); /* Hiệu ứng làm mờ nhẹ phần nền phía sau khung */
+            background: rgba(45, 10, 10, 0.65);
+            backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 2px solid rgba(255, 230, 153, 0.7);
             border-radius: 12px;
@@ -176,6 +175,10 @@
         const actionHint = document.getElementById('action-hint');
 
         function startTyping(text) {
+            // Xóa sạch tiến trình gõ chữ cũ trước đó để tránh bị chồng chéo
+            if (typingTimeout) {
+                clearTimeout(typingTimeout);
+            }
             isTyping = true;
             dialogueTextEl.innerHTML = "";
             charIndex = 0;
@@ -185,7 +188,7 @@
                 if (charIndex < text.length) {
                     dialogueTextEl.innerHTML += text.charAt(charIndex);
                     charIndex++;
-                    typingTimeout = setTimeout(typeChar, 35);
+                    typingTimeout = setTimeout(typeChar, 30);
                 } else {
                     isTyping = false;
                     updateNavigationUI();
@@ -214,7 +217,10 @@
             if (event.target.id === 'back-btn' || event.target.id === 'next-page-btn') return;
 
             if (isTyping) {
-                clearTimeout(typingTimeout);
+                // Nếu đang gõ mà click vào màn hình -> hiển thị toàn bộ nội dung ngay lập tức
+                if (typingTimeout) {
+                    clearTimeout(typingTimeout);
+                }
                 dialogueTextEl.innerHTML = storySteps[currentStep];
                 isTyping = false;
                 updateNavigationUI();
