@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - Story</title>
+    <!-- Nhúng Google Fonts: Montserrat & Font chữ pixel chuẩn, rõ dấu tiếng Việt -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Thay nền mới theo yêu cầu */
+            background: linear-gradient(rgba(26, 8, 8, 0.6), rgba(26, 8, 8, 0.6)), url('IMG_6743 (1).PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff4d9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Hiệu ứng chibi rung NHẸ ở góc trái */
+        @keyframes gentleShake {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-3px) rotate(-1deg); }
+            75% { transform: translateY(2px) rotate(1deg); }
+        }
+
+        #chibi-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            animation: gentleShake 3s infinite ease-in-out;
+        }
+
+        #chibi-container img {
+            width: 180px;
+            height: auto;
+            display: block;
+            /* Không khung, không viền, nguyên bản ảnh */
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Khung chat phong cách Otome game (Pixel style) */
+        #dialogue-box {
+            position: absolute;
+            bottom: 25px;
+            left: 210px;
+            right: 25px;
+            background: rgba(26, 8, 8, 0.9);
+            border: 3px solid #ffe699;
+            border-radius: 12px;
+            padding: 20px 25px 35px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(255, 230, 153, 0.2);
+            z-index: 20;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Chữ pixel sắc nét, không lỗi tiếng Việt */
+        #dialogue-text {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            color: #ffeaa7;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+            text-align: left;
+            min-height: 70px;
+        }
+
+        /* Dòng chữ tap to continue / hướng dẫn */
+        #action-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            color: #fce181;
+            animation: blinkHint 1s infinite alternate;
+        }
+
+        @keyframes blinkHint {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        /* Nút Back và Next nhỏ gọn góc trái/phải */
+        .nav-btn {
+            position: absolute;
+            bottom: 10px;
+            background: transparent;
+            border: 2px solid #ffe699;
+            color: #ffe699;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 30;
+        }
+
+        .nav-btn:hover {
+            background: #ffe699;
+            color: #1a0808;
+        }
+
+        #back-btn {
+            left: 20px;
+            display: none; /* Mặc định ẩn, hiện từ đoạn 2 trở đi */
+        }
+
+        #next-page-btn {
+            right: 20px;
+            display: none; /* Chỉ hiện ở đoạn 4 */
+        }
+
+        /* Hiệu ứng ma trận chuyển sang trang 5 */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body onclick="handleScreenClick(event)">
+
+    <!-- Cô chibi góc trái -->
+    <div id="chibi-container">
+        <img src="rynnchibi.png" alt="Chibi Rynn">
+    </div>
+
+    <!-- Khung chat Otome -->
+    <div id="dialogue-box">
+        <div id="dialogue-text"></div>
+        <button id="back-btn" class="nav-btn" onclick="prevStep(event)">[back]</button>
+        <div id="action-hint">tap to continue ▼</div>
+        <button id="next-page-btn" class="nav-btn" onclick="triggerMatrixTransition(event)">next? &rarr;</button>
+    </div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script>
+        const storySteps = [
+            "Đầu tiên thì,\nChúc Mừng Sinh Nhật Đông nhé, người chị rất yêu ><",
+            "anw, cảm ơn sự hiện diện của em đã làm cho cuộc sống của chị trở nên rực rỡ và ý nghĩa hơn rất rất nhiều.",
+            "chúc Đông một tuổi mới luôn ngập tràn niềm vui, sức khỏe và hạnh phúc nháa >< .\nChúc em thật thành công trên con đường em chọn, chúc cho hoa tươi sẽ luôn nở rộ trên con đường em bước, chúc cho ánh sáng sẽ cùng em đi tới cuối con đường.",
+            "Và, hơn hết, mong sẽ có một cô gái thật tốt đến bên em, một cô gái khiến em muốn yêu nhiều hơn em yêu chị, và cô gái ấy cũng biết cách yêu, cách thương em và yêu em nhiều hơn, nhiều hơn chị yêu em."
+        ];
+
+        let currentStep = 0;
+        let charIndex = 0;
+        let isTyping = false;
+        let typingTimeout = null;
+
+        const dialogueTextEl = document.getElementById('dialogue-text');
+        const backBtn = document.getElementById('back-btn');
+        const nextBtn = document.getElementById('next-page-btn');
+        const actionHint = document.getElementById('action-hint');
+
+        function startTyping(text) {
+            isTyping = true;
+            dialogueTextEl.innerHTML = "";
+            charIndex = 0;
+            actionHint.style.display = 'none';
+
+            function typeChar() {
+                if (charIndex < text.length) {
+                    dialogueTextEl.innerHTML += text.charAt(charIndex);
+                    charIndex++;
+                    typingTimeout = setTimeout(typeChar, 35); // Tốc độ gõ chữ pixel
+                } else {
+                    isTyping = false;
+                    // Hiển thị nút điều hướng phù hợp sau khi gõ xong
+                    updateNavigationUI();
+                }
+            }
+            typeChar();
+        }
+
+        function updateNavigationUI() {
+            // Nút Back hiện từ bước 2 trở đi
+            if (currentStep > 0) {
+                backBtn.style.display = 'block';
+            } else {
+                backBtn.style.display = 'none';
+            }
+
+            // Nếu ở bước cuối (Đoạn 4): Ẩn "tap to continue", hiện nút "next?"
+            if (currentStep === storySteps.length - 1) {
+                actionHint.style.display = 'none';
+                nextBtn.style.display = 'block';
+            } else {
+                actionHint.style.display = 'block';
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        // Xử lý khi click vào màn hình để chuyển đoạn (trừ khi bấm nút Back/Next)
+        function handleScreenClick(event) {
+            // Nếu click trúng nút back hoặc next thì bỏ qua sự kiện màn hình
+            if (event.target.id === 'back-btn' || event.target.id === 'next-page-btn') return;
+
+            if (isTyping) {
+                // Nếu đang gõ mà click thì hiện luôn toàn bộ câu
+                clearTimeout(typingTimeout);
+                dialogueTextEl.innerHTML = storySteps[currentStep];
+                isTyping = false;
+                updateNavigationUI();
+            } else {
+                // Nếu đã gõ xong và chưa phải đoạn cuối thì chuyển sang đoạn kế tiếp
+                if (currentStep < storySteps.length - 1) {
+                    currentStep++;
+                    startTyping(storySteps[currentStep]);
+                }
+            }
+        }
+
+        function prevStep(event) {
+            event.stopPropagation(); // Ngăn không cho lan sự kiện click màn hình
+            if (currentStep > 0) {
+                currentStep--;
+                startTyping(storySteps[currentStep]);
+            }
+        }
+
+        // Khởi chạy đoạn 1 khi vừa load trang
+        window.onload = () => {
+            startTyping(storySteps[0]);
+        };
+
+        // Hiệu ứng ma trận chuyển sang trang 5
+        function triggerMatrixTransition(event) {
+            event.stopPropagation();
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ffeaa7';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang5.html"; // Chuyển sang Trang 5
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
