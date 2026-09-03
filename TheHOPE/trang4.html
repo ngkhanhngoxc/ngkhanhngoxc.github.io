@@ -21,8 +21,8 @@
             color: #fff4d9;
             min-height: 100vh;
             display: flex;
-            justify-content: flex-start;
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             padding: 20px;
@@ -36,16 +36,26 @@
             75% { transform: translateY(2px) rotate(1deg); }
         }
 
+        /* Container chứa cả chibi và khung chat để căn giữa màn hình */
+        #story-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         #chibi-container {
             position: absolute;
-            bottom: 20px;
+            top: -95px;
             left: 20px;
             z-index: 10;
             animation: gentleShake 3s infinite ease-in-out;
         }
 
         #chibi-container img {
-            width: 180px;
+            width: 140px;
             height: auto;
             display: block;
             border: none;
@@ -54,22 +64,20 @@
         }
 
         #dialogue-box {
-            position: absolute;
-            bottom: 25px;
-            left: 210px;
-            right: 25px;
-            background: rgba(45, 10, 10, 0.65);
+            width: 100%;
+            background: rgba(45, 10, 10, 0.75);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 2px solid rgba(255, 230, 153, 0.7);
             border-radius: 12px;
-            padding: 20px 25px 35px 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 230, 153, 0.15);
+            padding: 25px 30px 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 230, 153, 0.15);
             z-index: 20;
-            min-height: 150px;
+            min-height: 160px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
         }
 
         #dialogue-text {
@@ -85,7 +93,7 @@
 
         #action-hint {
             position: absolute;
-            bottom: 10px;
+            bottom: 12px;
             right: 20px;
             font-family: 'VT323', monospace;
             font-size: 1.2rem;
@@ -101,8 +109,8 @@
 
         .nav-btn {
             position: absolute;
-            bottom: 10px;
-            background: rgba(26, 8, 8, 0.4);
+            bottom: 12px;
+            background: rgba(26, 8, 8, 0.5);
             border: 2px solid #ffe699;
             color: #ffe699;
             font-family: 'VT323', monospace;
@@ -143,15 +151,17 @@
 </head>
 <body onclick="handleScreenClick(event)">
 
-    <div id="chibi-container">
-        <img src="rynnchibi.png" alt="Chibi Rynn">
-    </div>
+    <div id="story-wrapper">
+        <div id="chibi-container">
+            <img src="rynnchibi.png" alt="Chibi Rynn">
+        </div>
 
-    <div id="dialogue-box">
-        <div id="dialogue-text"></div>
-        <button id="back-btn" class="nav-btn" onclick="prevStep(event)">[back]</button>
-        <div id="action-hint">tap to continue ▼</div>
-        <button id="next-page-btn" class="nav-btn" onclick="triggerMatrixTransition(event)">next? &rarr;</button>
+        <div id="dialogue-box">
+            <div id="dialogue-text"></div>
+            <button id="back-btn" class="nav-btn" onclick="prevStep(event)">[back]</button>
+            <div id="action-hint">tap to continue ▼</div>
+            <button id="next-page-btn" class="nav-btn" onclick="triggerMatrixTransition(event)">next? &rarr;</button>
+        </div>
     </div>
 
     <canvas id="matrix-canvas"></canvas>
@@ -175,7 +185,6 @@
         const actionHint = document.getElementById('action-hint');
 
         function startTyping(text) {
-            // Xóa sạch tiến trình gõ chữ cũ trước đó để tránh bị chồng chéo
             if (typingTimeout) {
                 clearTimeout(typingTimeout);
             }
@@ -217,7 +226,6 @@
             if (event.target.id === 'back-btn' || event.target.id === 'next-page-btn') return;
 
             if (isTyping) {
-                // Nếu đang gõ mà click vào màn hình -> hiển thị toàn bộ nội dung ngay lập tức
                 if (typingTimeout) {
                     clearTimeout(typingTimeout);
                 }
