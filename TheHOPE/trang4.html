@@ -14,8 +14,7 @@
         }
 
         body {
-            /* Thay nền mới theo yêu cầu */
-            background: linear-gradient(rgba(26, 8, 8, 0.6), rgba(26, 8, 8, 0.6)), url('IMG_6743 (1).PNG');
+            background: linear-gradient(rgba(26, 8, 8, 0.4), rgba(26, 8, 8, 0.4)), url('IMG_6743 (1).PNG');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -31,7 +30,6 @@
             cursor: pointer;
         }
 
-        /* Hiệu ứng chibi rung NHẸ ở góc trái */
         @keyframes gentleShake {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-3px) rotate(-1deg); }
@@ -50,23 +48,24 @@
             width: 180px;
             height: auto;
             display: block;
-            /* Không khung, không viền, nguyên bản ảnh */
             border: none;
             background: transparent;
             box-shadow: none;
         }
 
-        /* Khung chat phong cách Otome game (Pixel style) */
+        /* Khung chat: Đỏ đậm pha đen mờ (translucent), nhìn xuyên thấu nền phía sau */
         #dialogue-box {
             position: absolute;
             bottom: 25px;
             left: 210px;
             right: 25px;
-            background: rgba(26, 8, 8, 0.9);
-            border: 3px solid #ffe699;
+            background: rgba(45, 10, 10, 0.65); /* Đỏ đậm trong suốt mờ mờ */
+            backdrop-filter: blur(4px); /* Hiệu ứng làm mờ nhẹ phần nền phía sau khung */
+            -webkit-backdrop-filter: blur(4px);
+            border: 2px solid rgba(255, 230, 153, 0.7);
             border-radius: 12px;
             padding: 20px 25px 35px 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(255, 230, 153, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 230, 153, 0.15);
             z-index: 20;
             min-height: 150px;
             display: flex;
@@ -74,19 +73,17 @@
             justify-content: space-between;
         }
 
-        /* Chữ pixel sắc nét, không lỗi tiếng Việt */
         #dialogue-text {
             font-family: 'VT323', monospace;
             font-size: 1.8rem;
             line-height: 1.4;
             color: #ffeaa7;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
             letter-spacing: 1px;
             text-align: left;
             min-height: 70px;
         }
 
-        /* Dòng chữ tap to continue / hướng dẫn */
         #action-hint {
             position: absolute;
             bottom: 10px;
@@ -95,6 +92,7 @@
             font-size: 1.2rem;
             color: #fce181;
             animation: blinkHint 1s infinite alternate;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
         @keyframes blinkHint {
@@ -102,11 +100,10 @@
             to { opacity: 1; }
         }
 
-        /* Nút Back và Next nhỏ gọn góc trái/phải */
         .nav-btn {
             position: absolute;
             bottom: 10px;
-            background: transparent;
+            background: rgba(26, 8, 8, 0.4);
             border: 2px solid #ffe699;
             color: #ffe699;
             font-family: 'VT323', monospace;
@@ -125,15 +122,14 @@
 
         #back-btn {
             left: 20px;
-            display: none; /* Mặc định ẩn, hiện từ đoạn 2 trở đi */
+            display: none;
         }
 
         #next-page-btn {
             right: 20px;
-            display: none; /* Chỉ hiện ở đoạn 4 */
+            display: none;
         }
 
-        /* Hiệu ứng ma trận chuyển sang trang 5 */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -148,12 +144,10 @@
 </head>
 <body onclick="handleScreenClick(event)">
 
-    <!-- Cô chibi góc trái -->
     <div id="chibi-container">
         <img src="rynnchibi.png" alt="Chibi Rynn">
     </div>
 
-    <!-- Khung chat Otome -->
     <div id="dialogue-box">
         <div id="dialogue-text"></div>
         <button id="back-btn" class="nav-btn" onclick="prevStep(event)">[back]</button>
@@ -191,10 +185,9 @@
                 if (charIndex < text.length) {
                     dialogueTextEl.innerHTML += text.charAt(charIndex);
                     charIndex++;
-                    typingTimeout = setTimeout(typeChar, 35); // Tốc độ gõ chữ pixel
+                    typingTimeout = setTimeout(typeChar, 35);
                 } else {
                     isTyping = false;
-                    // Hiển thị nút điều hướng phù hợp sau khi gõ xong
                     updateNavigationUI();
                 }
             }
@@ -202,14 +195,12 @@
         }
 
         function updateNavigationUI() {
-            // Nút Back hiện từ bước 2 trở đi
             if (currentStep > 0) {
                 backBtn.style.display = 'block';
             } else {
                 backBtn.style.display = 'none';
             }
 
-            // Nếu ở bước cuối (Đoạn 4): Ẩn "tap to continue", hiện nút "next?"
             if (currentStep === storySteps.length - 1) {
                 actionHint.style.display = 'none';
                 nextBtn.style.display = 'block';
@@ -219,19 +210,15 @@
             }
         }
 
-        // Xử lý khi click vào màn hình để chuyển đoạn (trừ khi bấm nút Back/Next)
         function handleScreenClick(event) {
-            // Nếu click trúng nút back hoặc next thì bỏ qua sự kiện màn hình
             if (event.target.id === 'back-btn' || event.target.id === 'next-page-btn') return;
 
             if (isTyping) {
-                // Nếu đang gõ mà click thì hiện luôn toàn bộ câu
                 clearTimeout(typingTimeout);
                 dialogueTextEl.innerHTML = storySteps[currentStep];
                 isTyping = false;
                 updateNavigationUI();
             } else {
-                // Nếu đã gõ xong và chưa phải đoạn cuối thì chuyển sang đoạn kế tiếp
                 if (currentStep < storySteps.length - 1) {
                     currentStep++;
                     startTyping(storySteps[currentStep]);
@@ -240,19 +227,17 @@
         }
 
         function prevStep(event) {
-            event.stopPropagation(); // Ngăn không cho lan sự kiện click màn hình
+            event.stopPropagation();
             if (currentStep > 0) {
                 currentStep--;
                 startTyping(storySteps[currentStep]);
             }
         }
 
-        // Khởi chạy đoạn 1 khi vừa load trang
         window.onload = () => {
             startTyping(storySteps[0]);
         };
 
-        // Hiệu ứng ma trận chuyển sang trang 5
         function triggerMatrixTransition(event) {
             event.stopPropagation();
             const canvas = document.getElementById('matrix-canvas');
@@ -292,7 +277,7 @@
             setInterval(drawMatrix, 30);
 
             setTimeout(() => {
-                window.location.href = "trang5.html"; // Chuyển sang Trang 5
+                window.location.href = "trang5.html";
             }, 1800);
         }
     </script>
