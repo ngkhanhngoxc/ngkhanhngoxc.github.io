@@ -62,7 +62,6 @@
             border: 2px solid #e0d6c3;
         }
 
-        /* Nắp phong bì trang trí */
         #envelope-container::before {
             content: '';
             position: absolute;
@@ -75,7 +74,6 @@
             transition: transform 0.6s ease;
         }
 
-        /* Chấm than đỏ to đùng góc phải trên phong bì */
         #badge-alert {
             position: absolute;
             top: -12px;
@@ -95,7 +93,6 @@
             z-index: 10;
         }
 
-        /* Dòng chữ thông báo dưới phong bì */
         #notification-text {
             margin-top: 20px;
             font-family: 'Montserrat', sans-serif;
@@ -107,7 +104,6 @@
             animation: fadeIn 1s ease forwards 0.5s;
         }
 
-        /* Vòng tròn "open?" ở chính giữa phong bì */
         #open-circle {
             position: relative;
             z-index: 5;
@@ -133,7 +129,7 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
         }
 
-        /* Tờ giấy A4 mở ra chứa lời nhắn */
+        /* Tờ giấy A4 mở ra */
         #letter-sheet {
             display: none;
             width: 380px;
@@ -149,17 +145,27 @@
             border: 1px solid #e2d9c4;
         }
 
-        /* Đổi sang font Times New Roman chuẩn, không lỗi tiếng Việt */
+        /* Times New Roman chuẩn không lỗi font */
         .letter-content {
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.25rem;
             line-height: 1.6;
             color: #2c221e;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
-        /* Nút Done hình mũi tên dạng khung viền vàng ánh sáng vàng */
+        /* Dòng phụ thêm sau lần bấm done thứ 2 */
+        .sub-question {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #5c4033;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
         #done-btn-container {
             display: flex;
             justify-content: center;
@@ -190,7 +196,6 @@
             transform: scale(1.05);
         }
 
-        /* Hiệu ứng ma trận chuyển sang trang 4 */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -205,7 +210,7 @@
 </head>
 <body>
 
-    <!-- Giao diện Ban đầu: Phong bì trắng & Chấm than + Thông báo -->
+    <!-- Giao diện Ban đầu -->
     <div id="wrapper-section">
         <div id="envelope-container" onclick="openLetter()">
             <div id="badge-alert">!</div>
@@ -214,14 +219,15 @@
         <div id="notification-text">You have a notification!</div>
     </div>
 
-    <!-- Giao diện Tờ A4 mở ra sau khi click open -->
+    <!-- Giao diện Tờ A4 -->
     <div id="letter-sheet">
-        <div class="letter-content">
+        <div class="letter-content" id="main-text">
             Anyway<br><br>
             Trước hết, Đông có thể giúp chị uống một cốc nước nhỏ và rửa tay bằng nước mát trước khi chúng ta tiếp tục k nè >< ?
         </div>
+        <div id="extra-container"></div>
         <div id="done-btn-container">
-            <button id="done-btn" onclick="triggerMatrixTransition()">
+            <button id="done-btn" onclick="handleDoneClick()">
                 done? &rarr;
             </button>
         </div>
@@ -230,9 +236,28 @@
     <canvas id="matrix-canvas"></canvas>
 
     <script>
+        let clickCount = 0;
+
         function openLetter() {
             document.getElementById('wrapper-section').style.display = 'none';
             document.getElementById('letter-sheet').style.display = 'block';
+        }
+
+        function handleDoneClick() {
+            clickCount++;
+            const mainTextEl = document.getElementById('main-text');
+            const extraContainer = document.getElementById('extra-container');
+
+            if (clickCount === 1) {
+                // Lần bấm done 1: Đổi nội dung thành bài hát Juky San
+                mainTextEl.innerHTML = "Giờ thì có thể giúp chị bật bài hát ‘Người đầu tiên’ của Juky San lên không :3";
+            } else if (clickCount === 2) {
+                // Lần bấm done 2: Thêm dòng "bật chưa đó?" bên dưới
+                extraContainer.innerHTML = `<div class="sub-question">bật chưa đó?</div>`;
+            } else if (clickCount === 3) {
+                // Lần bấm done 3: Chuyển sang trang 4 qua hiệu ứng ma trận
+                triggerMatrixTransition();
+            }
         }
 
         function triggerMatrixTransition() {
