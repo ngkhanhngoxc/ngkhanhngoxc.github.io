@@ -42,7 +42,7 @@
             text-align: center;
             opacity: 0;
             transform: translateY(-10px);
-            transition: all 0.5s ease;
+            transition: all 0.6s ease;
         }
 
         #page-title.show {
@@ -71,7 +71,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 230, 153, 0.1);
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .ios-notification.show {
@@ -117,9 +117,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(58, 12, 12, 0.88); /* Tối màu theo hướng đỏ rượu vang */
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(58, 12, 12, 0.9); /* Tối màu hướng đỏ rượu vang */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 999;
             display: flex;
             flex-direction: column;
@@ -127,7 +127,7 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.8s ease;
         }
 
         #loading-overlay.active {
@@ -135,7 +135,6 @@
             pointer-events: auto;
         }
 
-        /* Đồng hồ cát chiếm 90% màn hình, chính giữa, dạng pixel tối giản */
         #hourglass-container {
             width: 90vw;
             height: 90vh;
@@ -146,19 +145,16 @@
             position: relative;
         }
 
-        /* Đồng hồ cát pixel tối giản dùng ký tự/icon thuần màu vàng */
-        #pixel-hourglass {
-            font-family: 'VT323', monospace;
-            font-size: 10rem;
-            color: #ffe699;
-            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 230, 153, 0.4);
-            line-height: 1;
-            text-align: center;
-            user-select: none;
-            transition: transform 0.3s ease;
+        /* Vẽ icon đồng hồ cát đơn sắc tối giản chuẩn theo mẫu hình ảnh bằng SVG */
+        #svg-hourglass {
+            width: 140px;
+            height: 140px;
+            fill: #ffe699;
+            filter: drop-shadow(0 0 10px rgba(255, 230, 153, 0.3));
+            transition: transform 0.5s ease;
         }
 
-        #pixel-hourglass.flipping {
+        #svg-hourglass.flipping {
             transform: rotate(180deg);
         }
 
@@ -186,7 +182,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
             transform: translateY(15px);
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
             z-index: 1000;
         }
 
@@ -273,7 +269,10 @@
     <!-- Màn hình loading đồng hồ cát -->
     <div id="loading-overlay">
         <div id="hourglass-container">
-            <div id="pixel-hourglass">⏳</div>
+            <!-- Icon đồng hồ cát tối giản chuẩn mẫu dạng SVG vector đơn sắc -->
+            <svg id="svg-hourglass" viewBox="0 0 24 24">
+                <path d="M6 2h12v3l-4 4 4 4v3h-12v-3l4-4-4-4v-3zm2 2v1.5l3.5 3.5L8 12.5V14h8v-1.5l-3.5-3.5L16 5.5V4H8z"/>
+            </svg>
             <div id="loading-text">loading...</div>
         </div>
         <button id="continue-btn" onclick="goToNextPage()">continue? -&gt;</button>
@@ -284,23 +283,23 @@
         const pageTitle = document.getElementById('page-title');
         const loadingOverlay = document.getElementById('loading-overlay');
         const continueBtn = document.getElementById('continue-btn');
-        const hourglass = document.getElementById('pixel-hourglass');
+        const hourglass = document.getElementById('svg-hourglass');
 
-        // Hiển thị chậm rãi từng thông báo (khoảng cách mỗi cái là 700ms)
+        // Cho tốc độ hiện thông báo chậm rãi, từ tốn hơn nữa (khoảng cách mỗi thông báo là 900ms)
         window.onload = () => {
             setTimeout(() => {
                 pageTitle.classList.add('show');
-            }, 400);
+            }, 500);
 
             notifs.forEach((notif, index) => {
                 setTimeout(() => {
                     notif.classList.add('show');
                     notif.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 800 + (index * 700)); // Tăng thời gian giãn cách để đọc thong thả
+                }, 1000 + (index * 900)); 
             });
 
-            // Sau khi thông báo cuối cùng hiện lên, cộng thêm 1.5 giây dừng để đọc
-            const totalDelay = 800 + (notifs.length * 700) + 1500;
+            // Sau khi hết thông báo, cộng thêm 2 giây để người đọc kịp nhìn kỹ câu cuối
+            const totalDelay = 1000 + (notifs.length * 900) + 2000;
 
             setTimeout(() => {
                 triggerLoadingSequence();
@@ -310,16 +309,16 @@
         function triggerLoadingSequence() {
             loadingOverlay.classList.add('active');
             
-            // Đồng hồ cát chảy siêu nhanh (0.05s) rồi đứng yên
+            // Đồng hồ cát chạy siêu nhanh trong vòng 0.05s (xoay lật)
             setTimeout(() => {
                 hourglass.classList.add('flipping');
             }, 50);
 
-            // Dừng hẳn, đổi chữ và hiện nút continue
+            // Dừng hẳn, đổi chữ sang "ready." và hiện nút continue
             setTimeout(() => {
                 document.getElementById('loading-text').innerText = 'ready.';
                 continueBtn.classList.add('show');
-            }, 900);
+            }, 1000);
         }
 
         function goToNextPage() {
