@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - End</title>
+    <!-- Nhúng Google Fonts: Times New Roman (mặc định), UTM Neutra/Montserrat đậm uppercase, và Abril Fatface -->
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(26, 8, 8, 0.4), rgba(26, 8, 8, 0.4)), url('end.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Container chứa các dòng chữ */
+        #end-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            max-width: 90vw;
+        }
+
+        /* Dòng 1: "Cho chị câu trả lời nhé?" */
+        #line-1 {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 1.5rem; /* Bé hơn size của trang 1 khoảng 1 size */
+            color: #ffeaa7;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #ffeaa7;
+            width: 0;
+            animation: typing 1.5s steps(30, end) forwards, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: #ffeaa7; }
+        }
+
+        /* Dòng 2: "HAPPY BIRTHDAY><" (Nảy ra, font UTM Neutra / Montserrat Uppercase, to hơn dòng 1 khoảng 2 size) */
+        #line-2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 2.3rem; 
+            color: #ffe699;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #line-2.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Dòng 3: "I love you><" (Hiện rõ dần, font Abril Fatface, bé hơn line-2 1 size) */
+        #line-3 {
+            font-family: 'Abril Fatface', serif;
+            font-size: 1.9rem;
+            color: #ffcccc;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #line-3.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="end-container">
+        <!-- Dòng 1: Đánh máy -->
+        <div id="line-1">Cho chị câu trả lời nhé?</div>
+
+        <!-- Dòng 2: Nảy ra -->
+        <div id="line-2">HAPPY BIRTHDAY&gt;&lt;</div>
+
+        <!-- Dòng 3: Rõ dần -->
+        <div id="line-3">I love you&gt;&lt;</div>
+    </div>
+
+    <script>
+        const line1 = document.getElementById('line-1');
+        const line2 = document.getElementById('line-2');
+        const line3 = document.getElementById('line-3');
+
+        // Thời gian dòng 1 đánh máy hoàn tất khoảng 1.5s - 1.6s
+        // Sau khi dòng 1 xong + 0.01s (thực tế delay mượt mà ~1.7s) thì hiện line-2
+        setTimeout(() => {
+            line1.style.borderRight = 'none'; // Tắt con trỏ nhấp nháy khi gõ xong
+            line2.classList.add('show');
+        }, 1600);
+
+        // Sau line-2 thêm 0.01s (delay ~2.2s) thì hiện line-3 rõ dần
+        setTimeout(() => {
+            line3.classList.add('show');
+        }, 2250);
+    </script>
+</body>
+</html>
