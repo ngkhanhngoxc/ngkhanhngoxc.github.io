@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Notification</title>
+    <!-- Nhúng Google Fonts: Montserrat & Font chữ pixel chuẩn -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <style>
         * {
@@ -61,7 +62,7 @@
 
         /* Khung thông báo chuẩn iOS trong suốt mờ mờ */
         .ios-notification {
-            background: rgba(45, 10, 10, 0.65);
+            background: rgba(45, 10, 10, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1.5px solid rgba(255, 230, 153, 0.4);
@@ -116,7 +117,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(58, 12, 12, 0.9); /* Tối màu hướng đỏ rượu vang */
+            background: rgba(58, 12, 12, 0.95);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 999;
@@ -144,13 +145,12 @@
             position: relative;
         }
 
-        /* Vẽ icon đồng hồ cát đơn sắc tối giản chuẩn theo mẫu hình ảnh bằng SVG */
         #svg-hourglass {
             width: 140px;
             height: 140px;
             fill: #ffe699;
             filter: drop-shadow(0 0 10px rgba(255, 230, 153, 0.3));
-            transition: transform 1.2s ease; /* Làm chậm thời gian lật đồng hồ cát từ từ hơn */
+            transition: transform 1.2s ease;
         }
 
         #svg-hourglass.flipping {
@@ -166,10 +166,9 @@
             letter-spacing: 2px;
         }
 
-        /* Nút continue xuất hiện sau khi đồng hồ cát dừng */
         #continue-btn {
             position: absolute;
-            bottom: 40px;
+            bottom: 50px;
             background: rgba(45, 10, 10, 0.9);
             border: 2px solid #ffe699;
             color: #ffe699;
@@ -275,30 +274,42 @@
         const continueBtn = document.getElementById('continue-btn');
         const hourglass = document.getElementById('svg-hourglass');
 
-        window.onload = () => {
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 pageTitle.classList.add('show');
-            }, 500);
+            }, 400);
 
             notifs.forEach((notif, index) => {
                 setTimeout(() => {
                     notif.classList.add('show');
                     notif.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 1000 + (index * 900)); 
+                }, 900 + (index * 900)); 
             });
 
-            // Sau khi hết thông báo cuối cùng, tăng thời gian nghỉ ngơi thêm ~5 giây (5000ms) để đọc thong thả
-            const totalDelay = 1000 + (notifs.length * 900) + 5000;
+            // Tổng thời gian chạy hết thông báo + nghỉ thêm 5 giây ngắm nghĩa
+            const totalDelay = 900 + (notifs.length * 900) + 5000;
 
             setTimeout(() => {
                 triggerLoadingSequence();
             }, totalDelay);
-        };
+        });
 
         function triggerLoadingSequence() {
             loadingOverlay.classList.add('active');
             
-            // Cho đồng hồ cát bắt đầu xoay lật thong thả sau 300ms
             setTimeout(() => {
                 hourglass.classList.add('flipping');
-            }, 300);
+            }, 400);
+
+            setTimeout(() => {
+                document.getElementById('loading-text').innerText = 'ready.';
+                continueBtn.classList.add('show');
+            }, 2000);
+        }
+
+        function goToNextPage() {
+            window.location.href = "trang6.html";
+        }
+    </script>
+</body>
+</html>
