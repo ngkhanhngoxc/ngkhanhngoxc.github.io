@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - Letter</title>
+    <!-- Nhúng Google Fonts: Montserrat & VT323 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,400&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(26, 8, 8, 0.4), rgba(26, 8, 8, 0.4)), url('IMG_6743 (1).PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+        }
+
+        /* Khung lá thư màu trắng kích thước B5 tối ưu cho điện thoại */
+        .b5-letter-container {
+            width: 100%;
+            max-width: 380px;
+            height: 68vh;
+            max-height: 520px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 30px 22px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInLetter 0.8s ease forwards;
+        }
+
+        @keyframes fadeInLetter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Phần bên trong thư có thể vuốt/cuộn, khung bên ngoài giữ nguyên */
+        .letter-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.2) transparent;
+        }
+
+        .letter-scroll-area::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .letter-scroll-area::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+
+        .letter-content {
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: #2b2b2b;
+            white-space: pre-line;
+            font-weight: 400;
+        }
+
+        /* Gợi ý nhỏ báo hiệu có thể vuốt/cuộn đọc tiếp */
+        .scroll-indicator {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            animation: bounceIndicator 1.5s infinite;
+        }
+
+        @keyframes bounceIndicator {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
+        }
+
+        /* Nút "tiếp nhé?" nằm bên dưới mức thư */
+        #next-btn {
+            margin-top: 20px;
+            background: rgba(45, 10, 10, 0.85);
+            border: 2px solid #ffe699;
+            color: #ffe699;
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            padding: 8px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.5s ease;
+            animation: fadeInBtn 0.8s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInBtn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #next-btn:hover {
+            background: #ffe699;
+            color: #1a0808;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="b5-letter-container">
+        <div class="letter-scroll-area">
+            <div class="letter-content">Cta không cần trở lại như ngày mới yêu đâu. 
+Just, Just friend? ye? 
+Chỉ cần đừng biến nhau thành hai người xa lạ từng biết quá nhiều về nhau (ẹc)
+
+T biết m có cuộc sống riêng, anw t cũng vậy:)).
+T tôn trọng khoảng cách m muốn mak, chỉ là... nếu m không còn khó chịu khi nhìn thấy t nữa, thì mình nói chuyện lại với nhau được không:>>?
+ just friends, like friends, like we used to. (anw t stalk m suốt xog đ dám nhắn dm=)))
+
+T nghĩ sau tất cả những gì đã xảy ra, chúng ta xứng đáng có một cách kết thúc dịu dàng hơn. (just my perspective)
+
+Không phải để bắt đầu lại.
+
+Chỉ là để những người từng thương nhau, sau này khi nhớ về nhau, không phải nhớ bằng sự né tránh (hì hì).
+
+T muốn chơi thân lại vs m, thats all:3.
+M hoàn toàn đc chọn, lựa chọn m mà:)))
+
+như nào cx là tùy m.
+
+cho t xin một câu trả lời nhé?
+đồng ý hay không thì cũng mong cho t một câu trả lời nhée.
+đợi m><</div>
+        </div>
+        <div class="scroll-indicator">↓ vuốt xuống để đọc tiếp ↓</div>
+    </div>
+
+    <button id="next-btn" onclick="goToNextPage()">tiếp nhé? -&gt;</button>
+
+    <script>
+        function goToNextPage() {
+            window.location.href = "trang8.html";
+        }
+    </script>
+</body>
+</html>
