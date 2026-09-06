@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Notification</title>
+    <!-- Nhúng Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -36,17 +37,16 @@
             color: #ff6b6b;
             text-shadow: 0 0 10px rgba(255, 230, 153, 0.5);
             margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeIn 0.8s ease forwards 0.3s;
             text-align: center;
+            animation: fadeInTitle 0.8s ease forwards;
         }
 
-        @keyframes fadeIn {
+        @keyframes fadeInTitle {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Container chứa các thông báo kiểu iOS */
+        /* Container chứa các thông báo */
         #notifications-container {
             width: 100%;
             max-width: 420px;
@@ -56,7 +56,7 @@
             margin-bottom: 40px;
         }
 
-        /* Khung thông báo kiểu iOS */
+        /* Khung thông báo kiểu iOS (Mặc định ẩn hoàn toàn bằng visibility và opacity) */
         .ios-notification {
             background: rgba(45, 10, 10, 0.75);
             backdrop-filter: blur(16px);
@@ -66,17 +66,19 @@
             padding: 14px 18px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             opacity: 0;
-            transform: scale(0.95) translateY(-10px);
+            visibility: hidden;
+            transform: scale(0.9) translateY(-15px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-align: left;
         }
 
+        /* Khi kích hoạt class show */
         .ios-notification.show {
             opacity: 1;
+            visibility: visible;
             transform: scale(1) translateY(0);
         }
 
-        /* Header thông báo: Tên app + thời gian */
         .notif-header {
             display: flex;
             justify-content: space-between;
@@ -86,7 +88,7 @@
 
         .notif-app-name {
             font-size: 0.8rem;
-            font-weight: 700; /* In đậm */
+            font-weight: 700;
             color: #ffe699;
             letter-spacing: 0.5px;
         }
@@ -96,7 +98,6 @@
             color: rgba(255, 244, 217, 0.6);
         }
 
-        /* Nội dung thông báo (nhỏ hơn 1 size) */
         .notif-body {
             font-size: 0.95rem;
             font-weight: 400;
@@ -104,7 +105,7 @@
             color: #fff4d9;
         }
 
-        /* Lớp phủ mờ nền nhẹ khoảng 25-30% */
+        /* Lớp phủ mờ nền nhẹ 25-30% */
         #overlay-wine {
             position: fixed;
             top: 0;
@@ -118,11 +119,11 @@
         }
 
         #overlay-wine.active {
-            background: rgba(58, 8, 8, 0.28); /* Mờ vừa khoảng 25-30% */
+            background: rgba(58, 8, 8, 0.28);
             pointer-events: auto;
         }
 
-        /* Khu vực hiển thị clock.gif thuần túy chính giữa màn hình */
+        /* Khu vực hiển thị clock.gif thuần túy chính giữa */
         #clock-wrapper {
             position: fixed;
             top: 50%;
@@ -146,7 +147,6 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        /* Only GIF, không khung nền hay bo viền */
         #clock-gif {
             width: 100%;
             height: auto;
@@ -157,7 +157,6 @@
             border: none;
         }
 
-        /* Nút continue */
         #continue-btn {
             margin-top: 25px;
             background: rgba(26, 8, 8, 0.85);
@@ -234,9 +233,86 @@
         </div>
     </div>
 
+    <!-- Lớp phủ & Clock GIF -->
     <div id="overlay-wine"></div>
 
     <div id="clock-wrapper">
         <img id="clock-gif" src="clock.gif?t=1" alt="Clock Animation">
         <button id="continue-btn" onclick="triggerMatrixTransition()">continue? &rarr;</button>
     </div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script>
+        const notificationDelays = [600, 2000, 3500, 5000, 6500, 8000, 9500];
+        const totalNotifs = 7;
+
+        window.onload = () => {
+            // Lần lượt kích hoạt hiển thị từng thông báo theo thời gian
+            for (let i = 1; i <= totalNotifs; i++) {
+                setTimeout(() => {
+                    const el = document.getElementById(`notif-${i}`);
+                    if (el) {
+                        el.classList.add('show');
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    }
+                }, notificationDelays[i - 1]);
+            }
+
+            // Sau khi thông báo cuối cùng chạy xong (khoảng 11.5 giây), làm mờ nhẹ và hiện clock.gif
+            setTimeout(() => {
+                document.getElementById('overlay-wine').classList.add('active');
+                document.getElementById('clock-wrapper').classList.add('active');
+
+                // Sau 2.5 giây hiện nút continue
+                setTimeout(() => {
+                    document.getElementById('continue-btn').classList.add('show');
+                }, 2500); 
+
+            }, 11500);
+        };
+
+        function triggerMatrixTransition() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ffeaa7';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang6.html";
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
