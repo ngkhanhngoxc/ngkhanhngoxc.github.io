@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Notification</title>
+    <!-- Nhúng Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -21,12 +22,12 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
-            overflow-y: auto;
+            justify-content: flex-start;
             font-family: 'Montserrat', sans-serif;
             padding: 30px 15px;
             position: relative;
+            overflow-x: hidden;
         }
 
         /* Dòng chữ tiêu đề thông báo đầu trang */
@@ -35,9 +36,10 @@
             font-weight: 700;
             color: #ff6b6b;
             text-shadow: 0 0 10px rgba(255, 230, 153, 0.5);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             opacity: 0;
             animation: fadeIn 0.8s ease forwards 0.3s;
+            text-align: center;
         }
 
         @keyframes fadeIn {
@@ -57,22 +59,22 @@
 
         /* Khung thông báo kiểu iOS */
         .ios-notification {
-            background: rgba(45, 10, 10, 0.65);
+            background: rgba(45, 10, 10, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 230, 153, 0.3);
+            border: 1px solid rgba(255, 230, 153, 0.35);
             border-radius: 18px;
             padding: 14px 18px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.95) translateY(-10px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-align: left;
         }
 
         .ios-notification.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1) translateY(0);
         }
 
         /* Header thông báo: Tên app + thời gian */
@@ -96,7 +98,7 @@
             color: rgba(255, 244, 217, 0.6);
         }
 
-        /* Nội dung thông báo (nhỏ hơn 1 size so với tiêu đề) */
+        /* Nội dung thông báo (nhỏ hơn 1 size) */
         .notif-body {
             font-size: 0.95rem;
             font-weight: 400;
@@ -104,7 +106,7 @@
             color: #fff4d9;
         }
 
-        /* Lớp phủ mờ dần sang đỏ rượu vang khi hết 7 thông báo */
+        /* Lớp phủ mờ dần sang đỏ rượu vang */
         #overlay-wine {
             position: fixed;
             top: 0;
@@ -118,7 +120,7 @@
         }
 
         #overlay-wine.active {
-            background: rgba(58, 8, 8, 0.92); /* Màu đỏ rượu vang tối màu, mờ đi */
+            background: rgba(58, 8, 8, 0.92);
             pointer-events: auto;
         }
 
@@ -155,7 +157,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        /* Nút continue xuất hiện sau khi gif chạy xong */
+        /* Nút continue */
         #continue-btn {
             margin-top: 25px;
             background: rgba(26, 8, 8, 0.8);
@@ -185,7 +187,6 @@
             transform: scale(1.05);
         }
 
-        /* Hiệu ứng chuyển trang ma trận sang trang 6 */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -203,6 +204,7 @@
     <div id="top-alert-title">bạn có thông báo mới!</div>
 
     <div id="notifications-container">
+        <!-- 7 thông báo iOS lần lượt xuất hiện -->
         <div class="ios-notification" id="notif-1">
             <div class="notif-header"><span class="notif-app-name">love letter</span><span class="notif-time">Bây giờ</span></div>
             <div class="notif-body">Chắc m move on r nhị><</div>
@@ -233,6 +235,7 @@
         </div>
     </div>
 
+    <!-- Lớp phủ & Clock GIF -->
     <div id="overlay-wine"></div>
 
     <div id="clock-wrapper">
@@ -243,27 +246,23 @@
     <canvas id="matrix-canvas"></canvas>
 
     <script>
-        // Thời gian hiển thị từng thông báo (miligiây)
         const notificationDelays = [400, 1800, 3200, 4600, 5900, 7200, 8600];
         const totalNotifs = 7;
 
         window.onload = () => {
-            // Lần lượt bật các thông báo lên
+            // Lần lượt bật các thông báo lên ngay phía dưới tiêu đề
             for (let i = 1; i <= totalNotifs; i++) {
                 setTimeout(() => {
                     document.getElementById(`notif-${i}`).classList.add('show');
-                    // Tự động cuộn xuống dưới nếu danh sách dài hơn màn hình
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 }, notificationDelays[i - 1]);
             }
 
-            // Sau khi thông báo cuối cùng hiện ra một lúc (ví dụ 10.5 giây), kích hoạt hiệu ứng tối màu và hiện clock.gif
+            // Sau khi hết 7 thông báo (khoảng 10.5 giây), tối màn hình và hiện clock.gif
             setTimeout(() => {
                 document.getElementById('overlay-wine').classList.add('active');
                 document.getElementById('clock-wrapper').classList.add('active');
 
-                // GIẢ SỬ file clock.gif chạy xong trong khoảng 2.5 giây (hoặc tùy độ dài thực tế của gif bạn)
-                // Sau khi hết thời gian gif chạy, hiện nút continue
+                // Sau 2.5 giây hiện nút continue
                 setTimeout(() => {
                     document.getElementById('continue-btn').classList.add('show');
                 }, 2500); 
@@ -271,7 +270,6 @@
             }, 10500);
         };
 
-        // Hiệu ứng ma trận chuyển sang trang 6 khi ấn continue
         function triggerMatrixTransition() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -296,4 +294,23 @@
                 ctx.fillStyle = '#ffeaa7';
                 ctx.font = fontSize + 'px monospace';
 
-                for (let i = 0
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(drawMatrix, 30);
+
+            setTimeout(() => {
+                window.location.href = "trang6.html";
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
