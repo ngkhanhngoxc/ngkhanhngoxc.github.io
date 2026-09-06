@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HOPE - Chat Messages</title>
+    <!-- Nhúng Google Fonts: Montserrat (Font tin nhắn) & VT323 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(26, 8, 8, 0.4), rgba(26, 8, 8, 0.4)), url('IMG_6743 (1).PNG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff4d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-family: 'Montserrat', sans-serif;
+            padding: 40px 15px;
+            position: relative;
+        }
+
+        /* Khung giao diện app nhắn tin chuẩn tối giản */
+        #chat-container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        /* Khung tin nhắn kiểu bong bóng (Giống app chat thông thường) */
+        .chat-bubble {
+            background: rgba(45, 10, 10, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 230, 153, 0.35);
+            border-radius: 18px;
+            border-bottom-left-radius: 4px; /* Tạo kiểu tin nhắn gửi đến/nhận */
+            padding: 12px 16px;
+            max-width: 85%;
+            align-self: flex-start;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chat-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #ffeaa7;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
+            word-break: break-word;
+        }
+
+        /* Nút read more? */
+        #read-more-btn {
+            background: rgba(45, 10, 10, 0.85);
+            border: 2px solid #ffe699;
+            color: #ffe699;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            padding: 10px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.5s ease;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            pointer-events: none;
+        }
+
+        #read-more-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        #read-more-btn:hover {
+            background: #ffe699;
+            color: #1a0808;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <!-- Tin nhắn 1 -->
+        <div class="chat-bubble" id="msg-1">
+            <div class="chat-text">Ngày đó t bị ngu á nên</div>
+        </div>
+
+        <!-- Tin nhắn 2 -->
+        <div class="chat-bubble" id="msg-2">
+            <div class="chat-text">ye</div>
+        </div>
+
+        <!-- Tin nhắn 3 -->
+        <div class="chat-bubble" id="msg-3">
+            <div class="chat-text">k còn j để bao biện cả</div>
+        </div>
+
+        <!-- Tin nhắn 4 -->
+        <div class="chat-bubble" id="msg-4">
+            <div class="chat-text">(và t cx k muốn nhắc lại chuyện buồn cũ)</div>
+        </div>
+
+        <!-- Tin nhắn 5 -->
+        <div class="chat-bubble" id="msg-5">
+            <div class="chat-text">Nhưng, sau cùng thì</div>
+        </div>
+
+        <!-- Tin nhắn 6 -->
+        <div class="chat-bubble" id="msg-6">
+            <div class="chat-text">lỗi t khi vội kéo m vào thế giới của t rồi đến cuối cùng, khi tình yêu không còn, ngay cả một tình bạn bình thường cũng chẳng giữ được</div>
+        </div>
+
+        <!-- Tin nhắn 7 -->
+        <div class="chat-bubble" id="msg-7">
+            <div class="chat-text">(dmmm tức á)</div>
+        </div>
+
+        <!-- Tin nhắn 8 -->
+        <div class="chat-bubble" id="msg-8">
+            <div class="chat-text">Anw, t rất hối hận về điều đó.</div>
+        </div>
+    </div>
+
+    <button id="read-more-btn" onclick="goToNextPage()">read more? -&gt;</button>
+
+    <script>
+        const messages = document.querySelectorAll('.chat-bubble');
+        const readMoreBtn = document.getElementById('read-more-btn');
+
+        // Hiển thị chậm rãi từng tin nhắn giống như đang đọc tin nhắn chat thực tế (khoảng cách 1000ms mỗi tin)
+        window.onload = () => {
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    msg.classList.add('show');
+                    msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 800 + (index * 1000));
+            });
+
+            // Sau khi tin nhắn cuối cùng xuất hiện, chờ thêm 1.5 giây rồi hiện nút read more?
+            const totalDelay = 800 + (messages.length * 1000) + 1500;
+
+            setTimeout(() => {
+                readMoreBtn.classList.add('show');
+                readMoreBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, totalDelay);
+        };
+
+        function goToNextPage() {
+            window.location.href = "trang7.html";
+        }
+    </script>
+</body>
+</html>
