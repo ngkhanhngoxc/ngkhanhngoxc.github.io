@@ -71,7 +71,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 230, 153, 0.1);
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .ios-notification.show {
@@ -117,7 +117,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(26, 8, 8, 0.85);
+            background: rgba(58, 12, 12, 0.88); /* Tối màu theo hướng đỏ rượu vang */
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             z-index: 999;
@@ -127,7 +127,7 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
         }
 
         #loading-overlay.active {
@@ -135,7 +135,7 @@
             pointer-events: auto;
         }
 
-        /* Đồng hồ cát chiếm 90% màn hình, chính giữa */
+        /* Đồng hồ cát chiếm 90% màn hình, chính giữa, dạng pixel tối giản */
         #hourglass-container {
             width: 90vw;
             height: 90vh;
@@ -146,23 +146,27 @@
             position: relative;
         }
 
-        #hourglass-icon {
-            font-size: 15rem;
+        /* Đồng hồ cát pixel tối giản dùng ký tự/icon thuần màu vàng */
+        #pixel-hourglass {
+            font-family: 'VT323', monospace;
+            font-size: 10rem;
             color: #ffe699;
-            text-shadow: 0 0 20px rgba(255, 230, 153, 0.5);
-            animation: pulseGlow 1.5s infinite alternate;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 230, 153, 0.4);
+            line-height: 1;
+            text-align: center;
+            user-select: none;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes pulseGlow {
-            from { transform: scale(1); opacity: 0.8; }
-            to { transform: scale(1.05); opacity: 1; }
+        #pixel-hourglass.flipping {
+            transform: rotate(180deg);
         }
 
         #loading-text {
             font-family: 'VT323', monospace;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: #ffe699;
-            margin-top: 20px;
+            margin-top: 25px;
             text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
             letter-spacing: 2px;
         }
@@ -171,11 +175,11 @@
         #continue-btn {
             position: absolute;
             bottom: 40px;
-            background: rgba(45, 10, 10, 0.8);
+            background: rgba(45, 10, 10, 0.9);
             border: 2px solid #ffe699;
             color: #ffe699;
             font-family: 'VT323', monospace;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             padding: 8px 25px;
             border-radius: 8px;
             cursor: pointer;
@@ -269,7 +273,7 @@
     <!-- Màn hình loading đồng hồ cát -->
     <div id="loading-overlay">
         <div id="hourglass-container">
-            <div id="hourglass-icon">⏳</div>
+            <div id="pixel-hourglass">⏳</div>
             <div id="loading-text">loading...</div>
         </div>
         <button id="continue-btn" onclick="goToNextPage()">continue? -&gt;</button>
@@ -280,23 +284,23 @@
         const pageTitle = document.getElementById('page-title');
         const loadingOverlay = document.getElementById('loading-overlay');
         const continueBtn = document.getElementById('continue-btn');
+        const hourglass = document.getElementById('pixel-hourglass');
 
-        // Hiệu ứng hiện lần lượt các thông báo
+        // Hiển thị chậm rãi từng thông báo (khoảng cách mỗi cái là 700ms)
         window.onload = () => {
             setTimeout(() => {
                 pageTitle.classList.add('show');
-            }, 300);
+            }, 400);
 
             notifs.forEach((notif, index) => {
                 setTimeout(() => {
                     notif.classList.add('show');
-                    // Tự động cuộn mượt xuống dưới để thấy thông báo mới nhất
                     notif.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 600 + (index * 400));
+                }, 800 + (index * 700)); // Tăng thời gian giãn cách để đọc thong thả
             });
 
-            // Sau khi hiển thị xong hết thông báo cộng thêm 1.5s dừng để đọc
-            const totalDelay = 600 + (notifs.length * 400) + 1500;
+            // Sau khi thông báo cuối cùng hiện lên, cộng thêm 1.5 giây dừng để đọc
+            const totalDelay = 800 + (notifs.length * 700) + 1500;
 
             setTimeout(() => {
                 triggerLoadingSequence();
@@ -304,15 +308,18 @@
         };
 
         function triggerLoadingSequence() {
-            // Hiện màn hình mờ với đồng hồ cát chảy nhanh (ví dụ chạy 0.05s)
             loadingOverlay.classList.add('active');
             
-            // Sau khi đồng hồ cát chạy xong (ví dụ 800ms), chuyển sang trạng thái end (đứng yên) và hiện nút continue
+            // Đồng hồ cát chảy siêu nhanh (0.05s) rồi đứng yên
             setTimeout(() => {
-                document.getElementById('hourglass-icon').style.animation = 'none'; // Dừng hiệu ứng động
+                hourglass.classList.add('flipping');
+            }, 50);
+
+            // Dừng hẳn, đổi chữ và hiện nút continue
+            setTimeout(() => {
                 document.getElementById('loading-text').innerText = 'ready.';
                 continueBtn.classList.add('show');
-            }, 800);
+            }, 900);
         }
 
         function goToNextPage() {
