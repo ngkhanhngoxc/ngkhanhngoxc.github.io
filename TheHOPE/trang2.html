@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Authentication</title>
+    <!-- Nhúng Google Fonts: Abril Fatface, Montserrat, BioRhyme -->
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=BioRhyme:wght@400;700&family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -48,7 +49,6 @@
             40%, 80% { transform: translateX(10px); }
         }
 
-        /* Hiệu ứng ngôi sao nhỏ nhảy ra khi đúng pass */
         @keyframes starPop {
             0% { transform: scale(0); opacity: 1; }
             100% { transform: scale(1.8) translateY(-40px); opacity: 0; }
@@ -149,14 +149,12 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
         }
 
-        /* Sai pass */
         #pass-input.error {
             border-color: #ff4d4d;
             box-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
             animation: shake 0.4s ease;
         }
 
-        /* Đúng pass */
         #pass-input.success {
             border-color: #2ecc71;
             box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
@@ -185,7 +183,6 @@
             margin-bottom: 15px;
         }
 
-        /* Khối thông báo thành công */
         #success-message-box {
             display: none;
             margin-top: 15px;
@@ -209,7 +206,6 @@
             margin-bottom: 15px;
         }
 
-        /* Nút Try Again & Next */
         .action-btn {
             background: transparent;
             border: 1px solid #ffe699;
@@ -229,7 +225,6 @@
             box-shadow: 0 0 15px rgba(255, 230, 153, 0.8);
         }
 
-        /* Ngôi sao hiệu ứng bay */
         .sparkle {
             position: absolute;
             width: 10px;
@@ -345,10 +340,26 @@
             }
         });
 
+        // Hàm chuẩn hóa tiếng Việt để loại bỏ dấu và đưa về chữ thường
+        function removeVietnameseAccents(str) {
+            return str
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd')
+                .replace(/Đ/g, 'D');
+        }
+
         function checkPassword() {
-            const enteredValue = passInput.value.trim().toLowerCase();
-            // Không phân biệt hoa/thường, chỉ cần chứa chuẩn từ khóa "quach anh dong"
-            if (enteredValue === "quach anh dong") {
+            let rawInput = passInput.value.trim();
+            // Chuyển chuỗi nhập vào thành chữ thường và bỏ dấu tiếng Việt để so sánh linh hoạt
+            let normalizedInput = removeVietnameseAccents(rawInput).toLowerCase();
+
+            // Kiểm tra xem người dùng có nhập chứa các từ khóa định danh không
+            if (
+                normalizedInput.includes("quach anh dong") || 
+                normalizedInput.includes("anh dong") || 
+                normalizedInput.includes("dong")
+            ) {
                 passInput.classList.add('success');
                 successBox.style.display = 'block';
                 passInput.disabled = true;
@@ -360,7 +371,6 @@
             }
         }
 
-        // Tạo hiệu ứng ngôi sao nhỏ bay ra
         function createSparkles() {
             for (let i = 0; i < 6; i++) {
                 const sparkle = document.createElement('div');
@@ -420,7 +430,7 @@
             setInterval(drawMatrix, 30);
 
             setTimeout(() => {
-                window.location.href = "trang3.html"; // Chuyển sang Trang 3
+                window.location.href = "trang3.html";
             }, 1800);
         }
     </script>
