@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Notification</title>
-    <!-- Nhúng Google Fonts: Montserrat & Font chữ pixel chuẩn -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <style>
         * {
@@ -127,7 +126,7 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.8s ease;
+            transition: opacity 1s ease;
         }
 
         #loading-overlay.active {
@@ -151,7 +150,7 @@
             height: 140px;
             fill: #ffe699;
             filter: drop-shadow(0 0 10px rgba(255, 230, 153, 0.3));
-            transition: transform 0.5s ease;
+            transition: transform 1.2s ease; /* Làm chậm thời gian lật đồng hồ cát từ từ hơn */
         }
 
         #svg-hourglass.flipping {
@@ -202,7 +201,6 @@
     <div id="page-title">bạn có thông báo mới!</div>
 
     <div id="notifications-container">
-        <!-- Thông báo 1 -->
         <div class="ios-notification" id="notif-1">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -211,7 +209,6 @@
             <div class="notif-body">Chắc m move on r nhị&gt;&lt;?</div>
         </div>
 
-        <!-- Thông báo 2 -->
         <div class="ios-notification" id="notif-2">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -220,7 +217,6 @@
             <div class="notif-body">Hay là mình nói chuyện lại đi :&gt;&gt;</div>
         </div>
 
-        <!-- Thông báo 3 -->
         <div class="ios-notification" id="notif-3">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -229,7 +225,6 @@
             <div class="notif-body">Nhưng lần này, chúng ta làm bạn thôi :)))</div>
         </div>
 
-        <!-- Thông báo 4 -->
         <div class="ios-notification" id="notif-4">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -238,7 +233,6 @@
             <div class="notif-body">(cls fr thì càng tốt)</div>
         </div>
 
-        <!-- Thông báo 5 -->
         <div class="ios-notification" id="notif-5">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -247,7 +241,6 @@
             <div class="notif-body">(nếu m k muốn thì th hihi).</div>
         </div>
 
-        <!-- Thông báo 6 -->
         <div class="ios-notification" id="notif-6">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -256,7 +249,6 @@
             <div class="notif-body">Nma anw, t cx k muốn ràng buộc m vào bất kỳ mqh nào</div>
         </div>
 
-        <!-- Thông báo 7 -->
         <div class="ios-notification" id="notif-7">
             <div class="notif-header">
                 <span class="notif-app-name">love letter</span>
@@ -266,10 +258,8 @@
         </div>
     </div>
 
-    <!-- Màn hình loading đồng hồ cát -->
     <div id="loading-overlay">
         <div id="hourglass-container">
-            <!-- Icon đồng hồ cát tối giản chuẩn mẫu dạng SVG vector đơn sắc -->
             <svg id="svg-hourglass" viewBox="0 0 24 24">
                 <path d="M6 2h12v3l-4 4 4 4v3h-12v-3l4-4-4-4v-3zm2 2v1.5l3.5 3.5L8 12.5V14h8v-1.5l-3.5-3.5L16 5.5V4H8z"/>
             </svg>
@@ -285,7 +275,6 @@
         const continueBtn = document.getElementById('continue-btn');
         const hourglass = document.getElementById('svg-hourglass');
 
-        // Cho tốc độ hiện thông báo chậm rãi, từ tốn hơn nữa (khoảng cách mỗi thông báo là 900ms)
         window.onload = () => {
             setTimeout(() => {
                 pageTitle.classList.add('show');
@@ -298,8 +287,8 @@
                 }, 1000 + (index * 900)); 
             });
 
-            // Sau khi hết thông báo, cộng thêm 2 giây để người đọc kịp nhìn kỹ câu cuối
-            const totalDelay = 1000 + (notifs.length * 900) + 2000;
+            // Sau khi hết thông báo cuối cùng, tăng thời gian nghỉ ngơi thêm ~5 giây (5000ms) để đọc thong thả
+            const totalDelay = 1000 + (notifs.length * 900) + 5000;
 
             setTimeout(() => {
                 triggerLoadingSequence();
@@ -309,21 +298,7 @@
         function triggerLoadingSequence() {
             loadingOverlay.classList.add('active');
             
-            // Đồng hồ cát chạy siêu nhanh trong vòng 0.05s (xoay lật)
+            // Cho đồng hồ cát bắt đầu xoay lật thong thả sau 300ms
             setTimeout(() => {
                 hourglass.classList.add('flipping');
-            }, 50);
-
-            // Dừng hẳn, đổi chữ sang "ready." và hiện nút continue
-            setTimeout(() => {
-                document.getElementById('loading-text').innerText = 'ready.';
-                continueBtn.classList.add('show');
-            }, 1000);
-        }
-
-        function goToNextPage() {
-            window.location.href = "trang6.html";
-        }
-    </script>
-</body>
-</html>
+            }, 300);
