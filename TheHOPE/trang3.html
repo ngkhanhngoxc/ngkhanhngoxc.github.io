@@ -155,7 +155,7 @@
             text-align: left;
         }
 
-        /* Dòng phụ thêm sau lần bấm done thứ 2 */
+        /* Dòng phụ thêm sau lần bấm done thứ 2 (nhỏ hơn 1 size, in nghiêng) */
         .sub-question {
             font-family: 'Times New Roman', Times, serif;
             font-style: italic;
@@ -172,7 +172,7 @@
             align-items: center;
         }
 
-        #done-btn {
+        .action-btn {
             background: rgba(26, 8, 8, 0.8);
             border: 2px solid #ffe699;
             color: #ffe699;
@@ -189,7 +189,7 @@
             gap: 8px;
         }
 
-        #done-btn:hover {
+        .action-btn:hover {
             background: #ffe699;
             color: #1a0808;
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
@@ -222,13 +222,14 @@
     <!-- Giao diện Tờ A4 -->
     <div id="letter-sheet">
         <div class="letter-content" id="main-text">
-            Anyway<br><br>
-            Trước hết, Đông có thể giúp chị uống một cốc nước nhỏ và rửa tay bằng nước mát trước khi chúng ta tiếp tục k nè >< ?
+            Haloo<br>
+            Trước hết thì,<br>
+            Đông có thể giúp chị uống một cốc nước ấm khong nè?
         </div>
         <div id="extra-container"></div>
         <div id="done-btn-container">
-            <button id="done-btn" onclick="handleDoneClick()">
-                done? &rarr;
+            <button class="action-btn" id="action-btn" onclick="handleDoneClick()">
+                done?
             </button>
         </div>
     </div>
@@ -247,13 +248,16 @@
             clickCount++;
             const mainTextEl = document.getElementById('main-text');
             const extraContainer = document.getElementById('extra-container');
+            const actionBtn = document.getElementById('action-btn');
 
             if (clickCount === 1) {
-                // Lần bấm done 1: Đổi nội dung thành bài hát Juky San
-                mainTextEl.innerHTML = "Giờ thì có thể giúp chị bật bài hát ‘Người đầu tiên’ của Juky San lên không :3";
+                // Lần bấm done 1: Thêm dòng "uống chưa đó?" bên dưới
+                extraContainer.innerHTML = `<div class="sub-question">uống chưa đó?</div>`;
             } else if (clickCount === 2) {
-                // Lần bấm done 2: Thêm dòng "bật chưa đó?" bên dưới
-                extraContainer.innerHTML = `<div class="sub-question">bật chưa đó?</div>`;
+                // Lần bấm done 2: Xóa hết câu cũ, đổi thành câu mới và đổi tên nút thành "đi nhé? ->"
+                mainTextEl.innerHTML = "giờ thì đắp chăn và để chị nắm tay em một lần nhé?";
+                extraContainer.innerHTML = ""; // Xóa dòng phụ đi
+                actionBtn.innerHTML = "đi nhé? &rarr;";
             } else if (clickCount === 3) {
                 // Lần bấm done 3: Chuyển sang trang 4 qua hiệu ứng ma trận
                 triggerMatrixTransition();
