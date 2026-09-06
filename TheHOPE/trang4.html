@@ -46,7 +46,7 @@
             gap: 15px;
         }
 
-        /* Chibi bên trái */
+        /* Chibi bên trái (Đã thu nhỏ 2 size) */
         #chibi-container {
             flex-shrink: 0;
             animation: gentleShake 3s infinite ease-in-out;
@@ -54,7 +54,7 @@
         }
 
         #chibi-container img {
-            width: 150px;
+            width: 110px;
             height: auto;
             display: block;
             border: none;
@@ -70,33 +70,34 @@
             -webkit-backdrop-filter: blur(4px);
             border: 2px solid rgba(255, 230, 153, 0.7);
             border-radius: 12px;
-            padding: 25px 25px 40px 25px;
+            padding: 20px 22px 35px 22px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 230, 153, 0.15);
             z-index: 20;
-            min-height: 160px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
         }
 
+        /* Chữ trong khung chat (Đã thu nhỏ 3 size) */
         #dialogue-text {
             font-family: 'VT323', monospace;
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             line-height: 1.4;
             color: #ffeaa7;
             text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
             letter-spacing: 1px;
             text-align: left;
-            min-height: 70px;
+            min-height: 60px;
         }
 
         #action-hint {
             position: absolute;
-            bottom: 10px;
-            right: 20px;
+            bottom: 8px;
+            right: 18px;
             font-family: 'VT323', monospace;
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: #fce181;
             animation: blinkHint 1s infinite alternate;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
@@ -109,13 +110,13 @@
 
         .nav-btn {
             position: absolute;
-            bottom: 10px;
+            bottom: 8px;
             background: rgba(26, 8, 8, 0.5);
             border: 2px solid #ffe699;
             color: #ffe699;
             font-family: 'VT323', monospace;
-            font-size: 1.1rem;
-            padding: 3px 12px;
+            font-size: 1rem;
+            padding: 2px 10px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -128,12 +129,12 @@
         }
 
         #back-btn {
-            left: 20px;
+            left: 18px;
             display: none;
         }
 
         #next-page-btn {
-            right: 20px;
+            right: 18px;
             display: none;
         }
 
@@ -152,7 +153,7 @@
 <body onclick="handleScreenClick(event)">
 
     <div id="story-container">
-        <!-- Chibi ở bên trái với ảnh mới -->
+        <!-- Chibi ở bên trái -->
         <div id="chibi-container">
             <img src="rynnchibeo.png" alt="Chibi Rynn Beo">
         </div>
