@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - Notification</title>
-    <!-- Nhúng Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Nhúng Google Fonts: Montserrat & Font chữ pixel chuẩn -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            background: linear-gradient(rgba(26, 8, 8, 0.45), rgba(26, 8, 8, 0.45)), url('IMG_6743 (1).PNG');
+            background: linear-gradient(rgba(26, 8, 8, 0.4), rgba(26, 8, 8, 0.4)), url('IMG_6743 (1).PNG');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -24,29 +24,33 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            font-family: 'Montserrat', sans-serif;
-            padding: 30px 15px;
-            position: relative;
             overflow-x: hidden;
+            overflow-y: auto;
+            font-family: 'Montserrat', sans-serif;
+            padding: 30px 20px;
+            position: relative;
         }
 
-        /* Dòng chữ tiêu đề thông báo đầu trang */
-        #top-alert-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ff6b6b;
-            text-shadow: 0 0 10px rgba(255, 230, 153, 0.5);
-            margin-bottom: 20px;
+        /* Tiêu đề "bạn có thông báo mới!" */
+        #page-title {
+            font-family: 'VT323', monospace;
+            font-size: 1.6rem;
+            color: #ffeaa7;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
             text-align: center;
-            animation: fadeInTitle 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.5s ease;
         }
 
-        @keyframes fadeInTitle {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        #page-title.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Container chứa các thông báo */
+        /* Container chứa các thông báo kiểu iOS */
         #notifications-container {
             width: 100%;
             max-width: 420px;
@@ -56,27 +60,23 @@
             margin-bottom: 40px;
         }
 
-        /* Khung thông báo kiểu iOS (Mặc định ẩn hoàn toàn bằng visibility và opacity) */
+        /* Khung thông báo chuẩn iOS trong suốt mờ mờ */
         .ios-notification {
-            background: rgba(45, 10, 10, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 230, 153, 0.35);
+            background: rgba(45, 10, 10, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 230, 153, 0.4);
             border-radius: 18px;
             padding: 14px 18px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 230, 153, 0.1);
             opacity: 0;
-            visibility: hidden;
-            transform: scale(0.9) translateY(-15px);
+            transform: translateY(20px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: left;
         }
 
-        /* Khi kích hoạt class show */
         .ios-notification.show {
             opacity: 1;
-            visibility: visible;
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
         }
 
         .notif-header {
@@ -87,91 +87,103 @@
         }
 
         .notif-app-name {
-            font-size: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
             font-weight: 700;
+            font-size: 0.8rem;
             color: #ffe699;
             letter-spacing: 0.5px;
+            text-transform: lowercase;
         }
 
         .notif-time {
-            font-size: 0.75rem;
+            font-family: 'VT323', monospace;
+            font-size: 0.9rem;
             color: rgba(255, 244, 217, 0.6);
         }
 
         .notif-body {
-            font-size: 0.95rem;
-            font-weight: 400;
-            line-height: 1.4;
-            color: #fff4d9;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            line-height: 1.3;
+            color: #ffeaa7;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.5px;
         }
 
-        /* Lớp phủ mờ nền nhẹ 25-30% */
-        #overlay-wine {
+        /* Màn hình loading / đồng hồ cát */
+        #loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(58, 8, 8, 0);
+            background: rgba(26, 8, 8, 0.85);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
             pointer-events: none;
-            transition: background 1s ease;
-            z-index: 50;
+            transition: opacity 0.5s ease;
         }
 
-        #overlay-wine.active {
-            background: rgba(58, 8, 8, 0.28);
+        #loading-overlay.active {
+            opacity: 1;
             pointer-events: auto;
         }
 
-        /* Khu vực hiển thị clock.gif thuần túy chính giữa */
-        #clock-wrapper {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
+        /* Đồng hồ cát chiếm 90% màn hình, chính giữa */
+        #hourglass-container {
             width: 90vw;
-            max-width: 500px;
+            height: 90vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.6s ease;
-            z-index: 100;
-            text-align: center;
+            position: relative;
         }
 
-        #clock-wrapper.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
+        #hourglass-icon {
+            font-size: 15rem;
+            color: #ffe699;
+            text-shadow: 0 0 20px rgba(255, 230, 153, 0.5);
+            animation: pulseGlow 1.5s infinite alternate;
         }
 
-        #clock-gif {
-            width: 100%;
-            height: auto;
-            max-height: 75vh;
-            object-fit: contain;
-            background: transparent;
-            box-shadow: none;
-            border: none;
+        @keyframes pulseGlow {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.05); opacity: 1; }
         }
 
+        #loading-text {
+            font-family: 'VT323', monospace;
+            font-size: 2.5rem;
+            color: #ffe699;
+            margin-top: 20px;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
+            letter-spacing: 2px;
+        }
+
+        /* Nút continue xuất hiện sau khi đồng hồ cát dừng */
         #continue-btn {
-            margin-top: 25px;
-            background: rgba(26, 8, 8, 0.85);
+            position: absolute;
+            bottom: 40px;
+            background: rgba(45, 10, 10, 0.8);
             border: 2px solid #ffe699;
             color: #ffe699;
-            padding: 10px 30px;
-            border-radius: 30px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            padding: 8px 25px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 230, 153, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(15px);
+            transition: all 0.4s ease;
+            z-index: 1000;
         }
 
         #continue-btn.show {
@@ -182,136 +194,129 @@
         #continue-btn:hover {
             background: #ffe699;
             color: #1a0808;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
-            transform: scale(1.05);
-        }
-
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="top-alert-title">bạn có thông báo mới!</div>
+    <div id="page-title">bạn có thông báo mới!</div>
 
     <div id="notifications-container">
+        <!-- Thông báo 1 -->
         <div class="ios-notification" id="notif-1">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
-            <div class="notif-body">Chắc m move on r nhị><</div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
+            <div class="notif-body">Chắc m move on r nhị&gt;&lt;?</div>
         </div>
+
+        <!-- Thông báo 2 -->
         <div class="ios-notification" id="notif-2">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
-            <div class="notif-body">Hay là mình nói chuyện lại đi :>></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
+            <div class="notif-body">Hay là mình nói chuyện lại đi :&gt;&gt;</div>
         </div>
+
+        <!-- Thông báo 3 -->
         <div class="ios-notification" id="notif-3">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
             <div class="notif-body">Nhưng lần này, chúng ta làm bạn thôi :)))</div>
         </div>
+
+        <!-- Thông báo 4 -->
         <div class="ios-notification" id="notif-4">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
             <div class="notif-body">(cls fr thì càng tốt)</div>
         </div>
+
+        <!-- Thông báo 5 -->
         <div class="ios-notification" id="notif-5">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
             <div class="notif-body">(nếu m k muốn thì th hihi).</div>
         </div>
+
+        <!-- Thông báo 6 -->
         <div class="ios-notification" id="notif-6">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
             <div class="notif-body">Nma anw, t cx k muốn ràng buộc m vào bất kỳ mqh nào</div>
         </div>
+
+        <!-- Thông báo 7 -->
         <div class="ios-notification" id="notif-7">
-            <div class="notif-header"><span class="notif-app-name">Rynn (nấm)</span><span class="notif-time">Bây giờ</span></div>
+            <div class="notif-header">
+                <span class="notif-app-name">love letter</span>
+                <span class="notif-time">bây giờ</span>
+            </div>
             <div class="notif-body">(ủa hnhu lm bạn cx là ràng buộc?).</div>
         </div>
     </div>
 
-    <!-- Lớp phủ & Clock GIF -->
-    <div id="overlay-wine"></div>
-
-    <div id="clock-wrapper">
-        <img id="clock-gif" src="clock.gif?t=1" alt="Clock Animation">
-        <button id="continue-btn" onclick="triggerMatrixTransition()">continue? &rarr;</button>
+    <!-- Màn hình loading đồng hồ cát -->
+    <div id="loading-overlay">
+        <div id="hourglass-container">
+            <div id="hourglass-icon">⏳</div>
+            <div id="loading-text">loading...</div>
+        </div>
+        <button id="continue-btn" onclick="goToNextPage()">continue? -&gt;</button>
     </div>
 
-    <canvas id="matrix-canvas"></canvas>
-
     <script>
-        const notificationDelays = [600, 2000, 3500, 5000, 6500, 8000, 9500];
-        const totalNotifs = 7;
+        const notifs = document.querySelectorAll('.ios-notification');
+        const pageTitle = document.getElementById('page-title');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const continueBtn = document.getElementById('continue-btn');
 
+        // Hiệu ứng hiện lần lượt các thông báo
         window.onload = () => {
-            // Lần lượt kích hoạt hiển thị từng thông báo theo thời gian
-            for (let i = 1; i <= totalNotifs; i++) {
-                setTimeout(() => {
-                    const el = document.getElementById(`notif-${i}`);
-                    if (el) {
-                        el.classList.add('show');
-                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                    }
-                }, notificationDelays[i - 1]);
-            }
-
-            // Sau khi thông báo cuối cùng chạy xong (khoảng 11.5 giây), làm mờ nhẹ và hiện clock.gif
             setTimeout(() => {
-                document.getElementById('overlay-wine').classList.add('active');
-                document.getElementById('clock-wrapper').classList.add('active');
+                pageTitle.classList.add('show');
+            }, 300);
 
-                // Sau 2.5 giây hiện nút continue
+            notifs.forEach((notif, index) => {
                 setTimeout(() => {
-                    document.getElementById('continue-btn').classList.add('show');
-                }, 2500); 
+                    notif.classList.add('show');
+                    // Tự động cuộn mượt xuống dưới để thấy thông báo mới nhất
+                    notif.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 600 + (index * 400));
+            });
 
-            }, 11500);
+            // Sau khi hiển thị xong hết thông báo cộng thêm 1.5s dừng để đọc
+            const totalDelay = 600 + (notifs.length * 400) + 1500;
+
+            setTimeout(() => {
+                triggerLoadingSequence();
+            }, totalDelay);
         };
 
-        function triggerMatrixTransition() {
-            const canvas = document.getElementById('matrix-canvas');
-            const ctx = canvas.getContext('2d');
-
-            canvas.style.display = 'block';
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>./\\*&^%$#@!";
-            const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            const drops = [];
-
-            for (let x = 0; x < columns; x++) {
-                drops[x] = 1;
-            }
-
-            function drawMatrix() {
-                ctx.fillStyle = 'rgba(26, 8, 8, 0.15)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = '#ffeaa7';
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                }
-            }
-
-            setInterval(drawMatrix, 30);
-
+        function triggerLoadingSequence() {
+            // Hiện màn hình mờ với đồng hồ cát chảy nhanh (ví dụ chạy 0.05s)
+            loadingOverlay.classList.add('active');
+            
+            // Sau khi đồng hồ cát chạy xong (ví dụ 800ms), chuyển sang trạng thái end (đứng yên) và hiện nút continue
             setTimeout(() => {
-                window.location.href = "trang6.html";
-            }, 1800);
+                document.getElementById('hourglass-icon').style.animation = 'none'; // Dừng hiệu ứng động
+                document.getElementById('loading-text').innerText = 'ready.';
+                continueBtn.classList.add('show');
+            }, 800);
+        }
+
+        function goToNextPage() {
+            window.location.href = "trang6.html";
         }
     </script>
 </body>
