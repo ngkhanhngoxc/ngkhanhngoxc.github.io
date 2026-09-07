@@ -127,7 +127,7 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
         }
 
         #loading-overlay.active {
@@ -150,7 +150,7 @@
             height: 140px;
             fill: #ffe699;
             filter: drop-shadow(0 0 10px rgba(255, 230, 153, 0.3));
-            transition: transform 1.2s ease;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Quay nhanh hơn (0.4s thay vì 1.2s) */
         }
 
         #svg-hourglass.flipping {
@@ -180,7 +180,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
             transform: translateY(15px);
-            transition: all 0.5s ease;
+            transition: all 0.4s ease;
             z-index: 1000;
         }
 
@@ -286,7 +286,7 @@
                 }, 900 + (index * 900)); 
             });
 
-            // Tổng thời gian chạy hết thông báo + nghỉ thêm 5 giây ngắm nghĩa
+            // Tổng thời gian chạy hết thông báo + nghỉ 5 giây đọc
             const totalDelay = 900 + (notifs.length * 900) + 5000;
 
             setTimeout(() => {
@@ -297,14 +297,16 @@
         function triggerLoadingSequence() {
             loadingOverlay.classList.add('active');
             
+            // Lật nhanh sau 150ms
             setTimeout(() => {
                 hourglass.classList.add('flipping');
-            }, 400);
+            }, 150);
 
+            // Hiện chữ ready và nút continue nhanh chóng sau 700ms
             setTimeout(() => {
                 document.getElementById('loading-text').innerText = 'ready.';
                 continueBtn.classList.add('show');
-            }, 2000);
+            }, 700);
         }
 
         function goToNextPage() {
