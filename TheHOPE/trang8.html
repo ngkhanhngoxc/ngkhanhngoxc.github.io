@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The HOPE - End</title>
-    <!-- Nhúng Google Fonts: Times New Roman (mặc định), UTM Neutra/Montserrat đậm uppercase, và Abril Fatface -->
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <!-- Nhúng Google Fonts: Times New Roman, Montserrat, và Abril Fatface -->
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -34,15 +34,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             max-width: 90vw;
         }
 
-        /* Dòng 1: "Cho chị câu trả lời nhé?" */
+        /* Dòng 1: "Cho chị câu trả lời nhé?" (Đã giảm 2 size) */
         #line-1 {
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
-            font-size: 1.5rem; /* Bé hơn size của trang 1 khoảng 1 size */
+            font-size: 1.1rem; 
             color: #ffeaa7;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             white-space: nowrap;
@@ -62,17 +62,17 @@
             50% { border-color: #ffeaa7; }
         }
 
-        /* Dòng 2: "HAPPY BIRTHDAY><" (Nảy ra, font UTM Neutra / Montserrat Uppercase, to hơn dòng 1 khoảng 2 size) */
+        /* Dòng 2: "HAPPY BIRTHDAY><" (Nảy ra, đã giảm 2 size) */
         #line-2 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 2.3rem; 
+            font-size: 1.7rem; 
             color: #ffe699;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
             opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.3);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #line-2.show {
@@ -80,18 +80,25 @@
             transform: scale(1);
         }
 
-        /* Dòng 3: "I love you><" (Hiện rõ dần, font Abril Fatface, bé hơn line-2 1 size) */
+        /* Dòng 3: "I love(d) you><" (Rõ dần, đã giảm 2 size) */
         #line-3 {
             font-family: 'Abril Fatface', serif;
-            font-size: 1.9rem;
+            font-size: 1.35rem;
             color: #ffcccc;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transform: translateY(10px);
+            transition: all 1.2s ease;
         }
 
         #line-3.show {
             opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Style riêng cho chữ (d) in nghiêng */
+        .italic-d {
+            font-style: italic;
         }
     </style>
 </head>
@@ -104,8 +111,8 @@
         <!-- Dòng 2: Nảy ra -->
         <div id="line-2">HAPPY BIRTHDAY&gt;&lt;</div>
 
-        <!-- Dòng 3: Rõ dần -->
-        <div id="line-3">I love you&gt;&lt;</div>
+        <!-- Dòng 3: Rõ dần (có chữ d in nghiêng) -->
+        <div id="line-3">I love<span class="italic-d">(d)</span> you&gt;&lt;</div>
     </div>
 
     <script>
@@ -113,17 +120,16 @@
         const line2 = document.getElementById('line-2');
         const line3 = document.getElementById('line-3');
 
-        // Thời gian dòng 1 đánh máy hoàn tất khoảng 1.5s - 1.6s
-        // Sau khi dòng 1 xong + 0.01s (thực tế delay mượt mà ~1.7s) thì hiện line-2
+        // Sau khi dòng 1 chạy xong đánh máy (1.5s), bật hiệu ứng nảy dòng 2
         setTimeout(() => {
-            line1.style.borderRight = 'none'; // Tắt con trỏ nhấp nháy khi gõ xong
+            line1.style.borderRight = 'none'; 
             line2.classList.add('show');
         }, 1600);
 
-        // Sau line-2 thêm 0.01s (delay ~2.2s) thì hiện line-3 rõ dần
+        // Tiếp tục sau đó một chút, bật hiệu ứng hiện rõ dòng 3
         setTimeout(() => {
             line3.classList.add('show');
-        }, 2250);
+        }, 2300);
     </script>
 </body>
 </html>
